@@ -1,23 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:personal_expense_app/widgets/new_transaction.dart';
+import 'package:personal_expense_app/widgets/user_transaction.dart';
 
-void main() {
-  runApp(MyPeronsalExpense());
-}
+import './widgets/transaction_list.dart';
 
-class MyPeronsalExpense extends StatefulWidget {
-  @override
-  _MyPeronsalExpenseState createState() => _MyPeronsalExpenseState();
-}
+void main() => runApp(MyPeronsalExpense());
 
-class _MyPeronsalExpenseState extends State<MyPeronsalExpense> {
+class MyPeronsalExpense extends StatelessWidget {
+  // String titleInput;
+  // String amountInput;
+
+  // Can also work in stateless widget
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Personal Expense'),
-      ),
-      body: Center(
-        child: Text('Initial App'),
+    return MaterialApp(
+      title: 'Personal Expense',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Personal Expense'),
+        ),
+        body: Column(
+          // Main Axis y and Cross Axis is x
+          // mainAxisAlignment: MainAxisAlignment.start,
+          // Instead of child width, we can set stretch to take full width
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              child: Card(
+                child: Text('Chart'),
+                elevation: 5,
+                color: Colors.white,
+              ),
+            ),
+            UserTransaction(),
+          ],
+        ),
       ),
     );
   }
