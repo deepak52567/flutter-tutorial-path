@@ -24,7 +24,8 @@ class TransactionList extends StatelessWidget {
                 // Perfect for custom styling and all
                 Container(
                   child: Text(
-                    '\$${transactions[index].amount}',
+                    // Show number until two decimal places
+                    '\$${transactions[index].amount.toStringAsFixed(2)}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
