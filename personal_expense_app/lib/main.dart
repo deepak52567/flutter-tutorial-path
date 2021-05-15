@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:personal_expense_app/widgets/new_transaction.dart';
 import 'package:personal_expense_app/widgets/user_transaction.dart';
-
-import './widgets/transaction_list.dart';
 
 void main() => runApp(MyPeronsalExpense());
 
@@ -22,21 +19,23 @@ class MyPeronsalExpense extends StatelessWidget {
         appBar: AppBar(
           title: Text('Personal Expense'),
         ),
-        body: Column(
-          // Main Axis y and Cross Axis is x
-          // mainAxisAlignment: MainAxisAlignment.start,
-          // Instead of child width, we can set stretch to take full width
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Container(
-              child: Card(
-                child: Text('Chart'),
-                elevation: 5,
-                color: Colors.white,
+        body: SingleChildScrollView(
+          child: Column(
+            // Main Axis y and Cross Axis is x
+            // mainAxisAlignment: MainAxisAlignment.start,
+            // Instead of child width, we can set stretch to take full width
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+                child: Card(
+                  child: Text('Chart'),
+                  elevation: 5,
+                  color: Colors.white,
+                ),
               ),
-            ),
-            UserTransaction(),
-          ],
+              UserTransaction(),
+            ],
+          ),
         ),
       ),
     );
