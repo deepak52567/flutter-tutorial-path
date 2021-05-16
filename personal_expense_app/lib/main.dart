@@ -26,12 +26,13 @@ class _MyPersonalExpenseState extends State<MyPersonalExpense> {
     //     id: 't3', title: 'Printed Shirts', amount: 500, date: DateTime.now()),
   ];
 
-  void _addNewTransaction(String txTitle, double txAmount) {
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime chosenDate) {
     final newTx = Transaction(
       id: DateTime.now().toString(),
       title: txTitle,
       amount: txAmount,
-      date: DateTime.now(),
+      date: chosenDate,
     );
 
     setState(() {
@@ -46,6 +47,12 @@ class _MyPersonalExpenseState extends State<MyPersonalExpense> {
         return NewTransaction(_addNewTransaction);
       },
     );
+  }
+
+  void _deleteTransaction(String transactionId) {
+    setState(() {
+      _userTransactions.removeWhere((tx) => tx.id == transactionId);
+    });
   }
 
   List<Transaction> get _recentTransactions {
@@ -70,7 +77,7 @@ class _MyPersonalExpenseState extends State<MyPersonalExpense> {
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
-          button: TextStyle(color: Colors.red)
+              button: TextStyle(color: Colors.red),
             ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
@@ -103,7 +110,7 @@ class _MyPersonalExpenseState extends State<MyPersonalExpense> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Chart(_recentTransactions),
-                TransactionList(_userTransactions),
+                TransactionList(_userTransactions, _deleteTransaction),
               ],
             ),
           ),
