@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:personal_expense_app/widgets/chart.dart';
 import 'package:personal_expense_app/widgets/new_transaction.dart';
 import 'package:personal_expense_app/widgets/transaction_list.dart';
 
@@ -47,6 +48,12 @@ class _MyPersonalExpenseState extends State<MyPersonalExpense> {
     );
   }
 
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -59,10 +66,9 @@ class _MyPersonalExpenseState extends State<MyPersonalExpense> {
         // Creating a default setting for textTheme that can be used over the app
         textTheme: ThemeData.light().textTheme.copyWith(
               headline6: TextStyle(
-                fontFamily: 'OpenSans',
-                fontSize: 18,
-                fontWeight: FontWeight.bold
-              ),
+                  fontFamily: 'OpenSans',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
             ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
@@ -94,13 +100,7 @@ class _MyPersonalExpenseState extends State<MyPersonalExpense> {
               // Instead of child width, we can set stretch to take full width
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Container(
-                  child: Card(
-                    child: Text('Chart'),
-                    elevation: 5,
-                    color: Colors.white,
-                  ),
-                ),
+                Chart(_recentTransactions),
                 TransactionList(_userTransactions),
               ],
             ),
