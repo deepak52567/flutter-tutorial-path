@@ -48,6 +48,7 @@ class TransactionList extends StatelessWidget {
                       radius: 30,
                       child: Padding(
                         padding: const EdgeInsets.all(6),
+                        // FittedBox shrinks internal data to be fixed in available space
                         child: FittedBox(
                           child: Text('\$${transactions[index].amount}'),
                         ),
