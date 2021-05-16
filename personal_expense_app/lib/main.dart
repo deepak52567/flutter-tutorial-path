@@ -17,12 +17,12 @@ class MyPersonalExpense extends StatefulWidget {
 
 class _MyPersonalExpenseState extends State<MyPersonalExpense> {
   final List<Transaction> _userTransactions = [
-    Transaction(
-        id: 't1', title: 'New Shoes', amount: 1500, date: DateTime.now()),
-    Transaction(
-        id: 't2', title: 'New Chips', amount: 600, date: DateTime.now()),
-    Transaction(
-        id: 't3', title: 'Printed Shirts', amount: 500, date: DateTime.now()),
+    // Transaction(
+    //     id: 't1', title: 'New Shoes', amount: 1500, date: DateTime.now()),
+    // Transaction(
+    //     id: 't2', title: 'New Chips', amount: 600, date: DateTime.now()),
+    // Transaction(
+    //     id: 't3', title: 'Printed Shirts', amount: 500, date: DateTime.now()),
   ];
 
   void _addNewTransaction(String txTitle, double txAmount) {
@@ -51,9 +51,33 @@ class _MyPersonalExpenseState extends State<MyPersonalExpense> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Personal Expense',
+      theme: ThemeData(
+        // Overrides all color style in other objects and can be used to change global styles as well
+        primarySwatch: Colors.teal,
+        accentColor: Colors.orangeAccent,
+        fontFamily: 'QuickSand',
+        // Creating a default setting for textTheme that can be used over the app
+        textTheme: ThemeData.light().textTheme.copyWith(
+              headline6: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 18,
+                fontWeight: FontWeight.bold
+              ),
+            ),
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 20,
+                ),
+              ),
+        ),
+      ),
       home: Scaffold(
           appBar: AppBar(
-            title: Text('Personal Expense'),
+            title: Text(
+              'Personal Expense',
+            ),
             actions: <Widget>[
               Builder(
                 builder: (context) => IconButton(
