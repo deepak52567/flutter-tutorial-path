@@ -66,9 +66,11 @@ class _MyPersonalExpenseState extends State<MyPersonalExpense> {
         // Creating a default setting for textTheme that can be used over the app
         textTheme: ThemeData.light().textTheme.copyWith(
               headline6: TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
+                fontFamily: 'OpenSans',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+          button: TextStyle(color: Colors.red)
             ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
