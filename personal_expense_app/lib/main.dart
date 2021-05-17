@@ -63,6 +63,20 @@ class _MyPersonalExpenseState extends State<MyPersonalExpense> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      title: Text(
+        'Personal Expense',
+      ),
+      actions: <Widget>[
+        Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => _startAddNewTransaction(context),
+          ),
+        )
+      ],
+    );
+
     return MaterialApp(
       title: 'Personal Expense',
       theme: ThemeData(
@@ -89,19 +103,7 @@ class _MyPersonalExpenseState extends State<MyPersonalExpense> {
         ),
       ),
       home: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              'Personal Expense',
-            ),
-            actions: <Widget>[
-              Builder(
-                builder: (context) => IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () => _startAddNewTransaction(context),
-                ),
-              )
-            ],
-          ),
+          appBar: appBar,
           body: SingleChildScrollView(
             child: Column(
               // Main Axis y and Cross Axis is x
@@ -109,8 +111,19 @@ class _MyPersonalExpenseState extends State<MyPersonalExpense> {
               // Instead of child width, we can set stretch to take full width
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Chart(_recentTransactions),
-                TransactionList(_userTransactions, _deleteTransaction),
+                Container(
+                  // Use media query to get device data and manipulate the UI part with it
+                  height: (MediaQuery.of(context).size.height -
+                          appBar.preferredSize.height) *
+                      0.4,
+                  child: Chart(_recentTransactions),
+                ),
+                Container(
+                  height: (MediaQuery.of(context).size.height -
+                          appBar.preferredSize.height) *
+                      0.6,
+                  child: TransactionList(_userTransactions, _deleteTransaction),
+                ),
               ],
             ),
           ),
