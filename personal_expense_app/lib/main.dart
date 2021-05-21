@@ -10,6 +10,8 @@ void main() => runApp(MyPersonalExpense());
 class MyPersonalExpense extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // textScaleFactor considers device font size. default is 1
+    // final textScaling = MediaQuery.of(context).textScaleFactor;
     return MaterialApp(
       title: 'Personal Expense',
       theme: ThemeData(
