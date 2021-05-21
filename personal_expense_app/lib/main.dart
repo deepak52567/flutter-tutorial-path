@@ -7,16 +7,45 @@ import 'models/transaction.dart';
 
 void main() => runApp(MyPersonalExpense());
 
-class MyPersonalExpense extends StatefulWidget {
-  // String titleInput;
-  // String amountInput;
-
-  // Can also work in stateless widget
+class MyPersonalExpense extends StatelessWidget {
   @override
-  _MyPersonalExpenseState createState() => _MyPersonalExpenseState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Personal Expense',
+      theme: ThemeData(
+        // Overrides all color style in other objects and can be used to change global styles as well
+        primarySwatch: Colors.teal,
+        accentColor: Colors.orangeAccent,
+        fontFamily: 'QuickSand',
+        // Creating a default setting for textTheme that can be used over the app
+        textTheme: ThemeData.light().textTheme.copyWith(
+              headline6: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+              button: TextStyle(color: Colors.red),
+            ),
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 20,
+                ),
+              ),
+        ),
+      ),
+      home: MyHomePage(),
+    );
+  }
 }
 
-class _MyPersonalExpenseState extends State<MyPersonalExpense> {
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
     // Transaction(
     //     id: 't1', title: 'New Shoes', amount: 1500, date: DateTime.now()),
@@ -68,73 +97,43 @@ class _MyPersonalExpenseState extends State<MyPersonalExpense> {
         'Personal Expense',
       ),
       actions: <Widget>[
-        Builder(
-          builder: (context) => IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _startAddNewTransaction(context),
-          ),
-        )
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _startAddNewTransaction(context),
+        ),
       ],
     );
 
-    return MaterialApp(
-      title: 'Personal Expense',
-      theme: ThemeData(
-        // Overrides all color style in other objects and can be used to change global styles as well
-        primarySwatch: Colors.teal,
-        accentColor: Colors.orangeAccent,
-        fontFamily: 'QuickSand',
-        // Creating a default setting for textTheme that can be used over the app
-        textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(
-                fontFamily: 'OpenSans',
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              button: TextStyle(color: Colors.red),
+    return Scaffold(
+      appBar: appBar,
+      body: SingleChildScrollView(
+        child: Column(
+          // Main Axis y and Cross Axis is x
+          // mainAxisAlignment: MainAxisAlignment.start,
+          // Instead of child width, we can set stretch to take full width
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              // Use media query to get device data and manipulate the UI part with it
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height) *
+                  0.3,
+              child: Chart(_recentTransactions),
             ),
-        appBarTheme: AppBarTheme(
-          textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontSize: 20,
-                ),
-              ),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height) *
+                  0.7,
+              child: TransactionList(_userTransactions, _deleteTransaction),
+            ),
+          ],
         ),
       ),
-      home: Scaffold(
-          appBar: appBar,
-          body: SingleChildScrollView(
-            child: Column(
-              // Main Axis y and Cross Axis is x
-              // mainAxisAlignment: MainAxisAlignment.start,
-              // Instead of child width, we can set stretch to take full width
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Container(
-                  // Use media query to get device data and manipulate the UI part with it
-                  height: (MediaQuery.of(context).size.height -
-                          appBar.preferredSize.height) *
-                      0.4,
-                  child: Chart(_recentTransactions),
-                ),
-                Container(
-                  height: (MediaQuery.of(context).size.height -
-                          appBar.preferredSize.height) *
-                      0.6,
-                  child: TransactionList(_userTransactions, _deleteTransaction),
-                ),
-              ],
-            ),
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: Builder(
-            builder: (context) => FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () => _startAddNewTransaction(context),
-            ),
-          )),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => _startAddNewTransaction(context),
+      ),
     );
   }
 }
