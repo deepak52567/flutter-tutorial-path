@@ -13,24 +13,28 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return transactions.isEmpty
-        ? Column(
-            children: <Widget>[
-              // Text(
-              //   'No transaction added yet!',
-              //   style: Theme.of(context).textTheme.headline6,
-              // ),
-              // Can be also used as adding space between items
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                height: 200,
-                child: Image.asset(
-                  'assets/images/page-empty-placeholder.jpg',
-                  fit: BoxFit.cover,
-                ),
-              )
-            ],
+        ? LayoutBuilder(
+            builder: (context, constraints) {
+              return Column(
+                children: <Widget>[
+                  // Text(
+                  //   'No transaction added yet!',
+                  //   style: Theme.of(context).textTheme.headline6,
+                  // ),
+                  // Can be also used as adding space between items
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    height: constraints.maxHeight * 0.6,
+                    child: Image.asset(
+                      'assets/images/page-empty-placeholder.jpg',
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                ],
+              );
+            },
           )
         : ListView.builder(
             itemBuilder: (ctx, index) {

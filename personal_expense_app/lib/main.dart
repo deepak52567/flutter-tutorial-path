@@ -5,7 +5,15 @@ import 'package:personal_expense_app/widgets/transaction_list.dart';
 
 import 'models/transaction.dart';
 
-void main() => runApp(MyPersonalExpense());
+void main() {
+  // // Newer version of flutter, it ensures Orientations features executed
+  // WidgetsFlutterBinding.ensureInitialized();
+  // // Control device orientation
+  // SystemChrome.setPreferredOrientations(
+  //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+  runApp(MyPersonalExpense());
+}
 
 class MyPersonalExpense extends StatelessWidget {
   @override
@@ -86,6 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  bool _showChart = false;
+
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
       return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
@@ -115,19 +125,33 @@ class _MyHomePageState extends State<MyHomePage> {
           // Instead of child width, we can set stretch to take full width
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              // Use media query to get device data and manipulate the UI part with it
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height) *
-                  0.3,
-              child: Chart(_recentTransactions),
+            Row(
+              children: <Widget>[
+                Text("Show Chat"),
+                Switch(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    })
+              ],
             ),
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height) *
-                  0.7,
-              child: TransactionList(_userTransactions, _deleteTransaction),
-            ),
+            _showChart
+                ? Container(
+                    // Use media query to get device data and manipulate the UI part with it
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height) *
+                        0.7,
+                    child: Chart(_recentTransactions),
+                  )
+                : Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height) *
+                        0.7,
+                    child:
+                        TransactionList(_userTransactions, _deleteTransaction),
+                  ),
           ],
         ),
       ),
