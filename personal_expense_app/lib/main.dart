@@ -19,7 +19,7 @@ class MyPersonalExpense extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // textScaleFactor considers device font size. default is 1
-    // final textScaling = MediaQuery.of(context).textScaleFactor;
+    // final textScaling = mediaQuery.textScaleFactor;
     return MaterialApp(
       title: 'Personal Expense',
       theme: ThemeData(
@@ -105,8 +105,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final bool isLandscape = mediaQuery.orientation == Orientation.landscape;
     final appBar = AppBar(
       title: Text(
         'Personal Expense',
@@ -119,9 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
     final txWidgetList = Container(
-      height:
-          (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
-              0.7,
+      height: (mediaQuery.size.height - appBar.preferredSize.height) * 0.7,
       child: TransactionList(_userTransactions, _deleteTransaction),
     );
 
@@ -150,8 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
             if (!isLandscape)
               Container(
                 // Use media query to get device data and manipulate the UI part with it
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height) *
+                height: (mediaQuery.size.height - appBar.preferredSize.height) *
                     0.3,
                 child: Chart(_recentTransactions),
               ),
@@ -160,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _showChart
                   ? Container(
                       // Use media query to get device data and manipulate the UI part with it
-                      height: (MediaQuery.of(context).size.height -
+                      height: (mediaQuery.size.height -
                               appBar.preferredSize.height) *
                           0.7,
                       child: Chart(_recentTransactions),
