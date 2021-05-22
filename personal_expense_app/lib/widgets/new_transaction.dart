@@ -12,6 +12,7 @@ class NewTransaction extends StatefulWidget {
   _NewTransactionState createState() => _NewTransactionState();
 }
 
+
 class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
