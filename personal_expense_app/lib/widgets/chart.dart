@@ -6,7 +6,9 @@ import 'package:personal_expense_app/widgets/chart_bar.dart';
 class Chart extends StatelessWidget {
   final List<Transaction> recentTransactions;
 
-  Chart(this.recentTransactions);
+  Chart(this.recentTransactions) {
+    print('Constructor Chart');
+  }
 
   List<Map<String, Object>> get groupedTransactionValues {
     return List.generate(7, (index) {
@@ -39,6 +41,7 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('Build() Chart');
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(15),
@@ -52,6 +55,7 @@ class Chart extends StatelessWidget {
             return Flexible(
               //tight is to force child to use its available space
               fit: FlexFit.tight,
+              // With const ChartBar(). it will  not work as data in txn always changing
               child: ChartBar(
                 txn['day'],
                 txn['amount'],

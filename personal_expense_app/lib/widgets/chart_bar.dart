@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 
 class ChartBar extends StatelessWidget {
+  // With final, user cannot change its value on its instance
   final String label;
   final double spendingAmount;
   final double spendingPerOfTotal;
 
-  ChartBar(this.label, this.spendingAmount, this.spendingPerOfTotal);
+  // By const, every object is created from ChartBar cannot be changed again
+  const ChartBar(this.label, this.spendingAmount, this.spendingPerOfTotal);
 
   @override
   Widget build(BuildContext context) {
+    print('Build() ChartBar');
     //Constraints is how a widget is rendered on the screen. Height/width more of widgets
-    // Helpfull to get all height or width of parent widget
+    // Helpful to get all height or width of parent widget
     return LayoutBuilder(
       builder: (ctx, constraints) {
         return Column(
