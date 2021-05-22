@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -67,6 +70,7 @@ class _NewTransactionState extends State<NewTransaction> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
+              // IOS: Can use cupertinoTextField also
               TextField(
                 decoration: InputDecoration(labelText: 'Title'),
                 controller: _titleController,
@@ -92,13 +96,21 @@ class _NewTransactionState extends State<NewTransaction> {
                       style: TextStyle(color: Colors.grey),
                     ),
                   ),
-                  TextButton(
-                    onPressed: _presentDatePicker,
-                    child: Text(
-                      'Choose Date',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  )
+                  Platform.isIOS
+                      ? CupertinoButton(
+                          child: Text(
+                            'Choose Date',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: _presentDatePicker,
+                        )
+                      : TextButton(
+                          onPressed: _presentDatePicker,
+                          child: Text(
+                            'Choose Date',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
                 ],
               ),
               ElevatedButton(

@@ -24,6 +24,7 @@ class MyPersonalExpense extends StatelessWidget {
   Widget build(BuildContext context) {
     // textScaleFactor considers device font size. default is 1
     // final textScaling = mediaQuery.textScaleFactor;
+    // IOS:Due to cupertino limited functionality, we will be using MaterialApp instead CupertinoApp for now
     return MaterialApp(
       title: 'Personal Expense',
       theme: ThemeData(
@@ -61,14 +62,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-    // Transaction(
-    //     id: 't1', title: 'New Shoes', amount: 1500, date: DateTime.now()),
-    // Transaction(
-    //     id: 't2', title: 'New Chips', amount: 600, date: DateTime.now()),
-    // Transaction(
-    //     id: 't3', title: 'Printed Shirts', amount: 500, date: DateTime.now()),
-  ];
+  final List<Transaction> _userTransactions = [];
 
   void _addNewTransaction(
       String txTitle, double txAmount, DateTime chosenDate) {
@@ -147,47 +141,53 @@ class _MyHomePageState extends State<MyHomePage> {
       child: TransactionList(_userTransactions, _deleteTransaction),
     );
 
-    final pageBody = SingleChildScrollView(
-      child: Column(
-        // Main Axis y and Cross Axis is x
-        // mainAxisAlignment: MainAxisAlignment.start,
-        // Instead of child width, we can set stretch to take full width
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          if (isLandscape)
-            Row(
-              children: <Widget>[
-                Text("Show Chat"),
-                // Adaptive means this switch will change its UI based on the OS
-                Switch.adaptive(
-                    activeColor: Theme.of(context).accentColor,
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    })
-              ],
-            ),
-          if (!isLandscape)
-            Container(
-              // Use media query to get device data and manipulate the UI part with it
-              height:
-                  (mediaQuery.size.height - appBar.preferredSize.height) * 0.3,
-              child: Chart(_recentTransactions),
-            ),
-          if (!isLandscape) txWidgetList,
-          if (isLandscape)
-            _showChart
-                ? Container(
-                    // Use media query to get device data and manipulate the UI part with it
-                    height:
-                        (mediaQuery.size.height - appBar.preferredSize.height) *
-                            0.7,
-                    child: Chart(_recentTransactions),
-                  )
-                : txWidgetList,
-        ],
+    // IOS:SafeArea to bound the widget into usable area excluding the reserved ares. i.e appBar etc.
+    final pageBody = SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          // Main Axis y and Cross Axis is x
+          // mainAxisAlignment: MainAxisAlignment.start,
+          // Instead of child width, we can set stretch to take full width
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            if (isLandscape)
+              Row(
+                children: <Widget>[
+                  Text(
+                    "Show Chat",
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  // Adaptive means this switch will change its UI based on the OS
+                  Switch.adaptive(
+                      activeColor: Theme.of(context).accentColor,
+                      value: _showChart,
+                      onChanged: (val) {
+                        setState(() {
+                          _showChart = val;
+                        });
+                      })
+                ],
+              ),
+            if (!isLandscape)
+              Container(
+                // Use media query to get device data and manipulate the UI part with it
+                height: (mediaQuery.size.height - appBar.preferredSize.height) *
+                    0.3,
+                child: Chart(_recentTransactions),
+              ),
+            if (!isLandscape) txWidgetList,
+            if (isLandscape)
+              _showChart
+                  ? Container(
+                      // Use media query to get device data and manipulate the UI part with it
+                      height: (mediaQuery.size.height -
+                              appBar.preferredSize.height) *
+                          0.7,
+                      child: Chart(_recentTransactions),
+                    )
+                  : txWidgetList,
+          ],
+        ),
       ),
     );
 
