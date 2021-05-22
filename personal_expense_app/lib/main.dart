@@ -1,3 +1,7 @@
+// Always put dar imports on top
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:personal_expense_app/widgets/chart.dart';
 import 'package:personal_expense_app/widgets/new_transaction.dart';
@@ -107,70 +111,101 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final bool isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final appBar = AppBar(
-      title: Text(
-        'Personal Expense',
-      ),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () => _startAddNewTransaction(context),
-        ),
-      ],
-    );
+    // Add PreferredSizeWidget type to tell dart its type and method. To prevent errors
+    final PreferredSizeWidget appBar = Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: Text(
+              'Personal Expense',
+            ),
+            trailing: Row(
+              // IOS
+              // By default, row expands fully.
+              // Using this will shrink as its item in it and title will not go out
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                  child: Icon(CupertinoIcons.add),
+                  onTap: () => _startAddNewTransaction(context),
+                ),
+              ],
+            ),
+          )
+        : AppBar(
+            title: Text(
+              'Personal Expense',
+            ),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () => _startAddNewTransaction(context),
+              ),
+            ],
+          );
+
     final txWidgetList = Container(
       height: (mediaQuery.size.height - appBar.preferredSize.height) * 0.7,
       child: TransactionList(_userTransactions, _deleteTransaction),
     );
 
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          // Main Axis y and Cross Axis is x
-          // mainAxisAlignment: MainAxisAlignment.start,
-          // Instead of child width, we can set stretch to take full width
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            if (isLandscape)
-              Row(
-                children: <Widget>[
-                  Text("Show Chat"),
-                  Switch(
-                      value: _showChart,
-                      onChanged: (val) {
-                        setState(() {
-                          _showChart = val;
-                        });
-                      })
-                ],
-              ),
-            if (!isLandscape)
-              Container(
-                // Use media query to get device data and manipulate the UI part with it
-                height: (mediaQuery.size.height - appBar.preferredSize.height) *
-                    0.3,
-                child: Chart(_recentTransactions),
-              ),
-            if (!isLandscape) txWidgetList,
-            if (isLandscape)
-              _showChart
-                  ? Container(
-                      // Use media query to get device data and manipulate the UI part with it
-                      height: (mediaQuery.size.height -
-                              appBar.preferredSize.height) *
-                          0.7,
-                      child: Chart(_recentTransactions),
-                    )
-                  : txWidgetList,
-          ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _startAddNewTransaction(context),
+    final pageBody = SingleChildScrollView(
+      child: Column(
+        // Main Axis y and Cross Axis is x
+        // mainAxisAlignment: MainAxisAlignment.start,
+        // Instead of child width, we can set stretch to take full width
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          if (isLandscape)
+            Row(
+              children: <Widget>[
+                Text("Show Chat"),
+                // Adaptive means this switch will change its UI based on the OS
+                Switch.adaptive(
+                    activeColor: Theme.of(context).accentColor,
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    })
+              ],
+            ),
+          if (!isLandscape)
+            Container(
+              // Use media query to get device data and manipulate the UI part with it
+              height:
+                  (mediaQuery.size.height - appBar.preferredSize.height) * 0.3,
+              child: Chart(_recentTransactions),
+            ),
+          if (!isLandscape) txWidgetList,
+          if (isLandscape)
+            _showChart
+                ? Container(
+                    // Use media query to get device data and manipulate the UI part with it
+                    height:
+                        (mediaQuery.size.height - appBar.preferredSize.height) *
+                            0.7,
+                    child: Chart(_recentTransactions),
+                  )
+                : txWidgetList,
+        ],
       ),
     );
+
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            navigationBar: appBar,
+          )
+        : Scaffold(
+            appBar: appBar,
+            body: pageBody,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: () => _startAddNewTransaction(context),
+                  ),
+          );
   }
 }
