@@ -104,6 +104,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final appBar = AppBar(
       title: Text(
         'Personal Expense',
@@ -115,6 +117,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ],
     );
+    final txWidgetList = Container(
+      height:
+          (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
+              0.7,
+      child: TransactionList(_userTransactions, _deleteTransaction),
+    );
 
     return Scaffold(
       appBar: appBar,
@@ -125,33 +133,38 @@ class _MyHomePageState extends State<MyHomePage> {
           // Instead of child width, we can set stretch to take full width
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Text("Show Chat"),
-                Switch(
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    })
-              ],
-            ),
-            _showChart
-                ? Container(
-                    // Use media query to get device data and manipulate the UI part with it
-                    height: (MediaQuery.of(context).size.height -
-                            appBar.preferredSize.height) *
-                        0.7,
-                    child: Chart(_recentTransactions),
-                  )
-                : Container(
-                    height: (MediaQuery.of(context).size.height -
-                            appBar.preferredSize.height) *
-                        0.7,
-                    child:
-                        TransactionList(_userTransactions, _deleteTransaction),
-                  ),
+            if (isLandscape)
+              Row(
+                children: <Widget>[
+                  Text("Show Chat"),
+                  Switch(
+                      value: _showChart,
+                      onChanged: (val) {
+                        setState(() {
+                          _showChart = val;
+                        });
+                      })
+                ],
+              ),
+            if (!isLandscape)
+              Container(
+                // Use media query to get device data and manipulate the UI part with it
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height) *
+                    0.3,
+                child: Chart(_recentTransactions),
+              ),
+            if (!isLandscape) txWidgetList,
+            if (isLandscape)
+              _showChart
+                  ? Container(
+                      // Use media query to get device data and manipulate the UI part with it
+                      height: (MediaQuery.of(context).size.height -
+                              appBar.preferredSize.height) *
+                          0.7,
+                      child: Chart(_recentTransactions),
+                    )
+                  : txWidgetList,
           ],
         ),
       ),
