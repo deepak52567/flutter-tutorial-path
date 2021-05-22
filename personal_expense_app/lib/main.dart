@@ -26,6 +26,7 @@ class MyPersonalExpense extends StatelessWidget {
         // Overrides all color style in other objects and can be used to change global styles as well
         primarySwatch: Colors.teal,
         accentColor: Colors.orangeAccent,
+        errorColor: Colors.red,
         fontFamily: 'QuickSand',
         // Creating a default setting for textTheme that can be used over the app
         textTheme: ThemeData.light().textTheme.copyWith(
