@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:personal_expense_app/widgets/adaptive_flat_button.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
@@ -96,29 +95,12 @@ class _NewTransactionState extends State<NewTransaction> {
                       style: TextStyle(color: Colors.grey),
                     ),
                   ),
-                  Platform.isIOS
-                      ? CupertinoButton(
-                          child: Text(
-                            'Choose Date',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          onPressed: _presentDatePicker,
-                        )
-                      : TextButton(
-                          onPressed: _presentDatePicker,
-                          child: Text(
-                            'Choose Date',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                  AdaptiveFlatButton('Choose Date', _presentDatePicker),
                 ],
               ),
               ElevatedButton(
                 onPressed: _submitData,
                 child: Text('Add Transaction'),
-                // style: ElevatedButton.styleFrom(
-                //   textStyle: TextStyle(color: Theme.of(context).textTheme.button.color),
-                // ),
               ),
             ],
           ),
