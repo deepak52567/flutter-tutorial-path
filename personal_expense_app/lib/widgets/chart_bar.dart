@@ -11,7 +11,6 @@ class ChartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Build() ChartBar');
     //Constraints is how a widget is rendered on the screen. Height/width more of widgets
     // Helpful to get all height or width of parent widget
     return LayoutBuilder(

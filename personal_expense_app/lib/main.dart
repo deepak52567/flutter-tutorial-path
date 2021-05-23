@@ -101,6 +101,40 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
+  // AppBar builder method
+  Widget _buildAppBar() {
+    return Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: const Text(
+              'Personal Expense',
+            ),
+            trailing: Row(
+              // IOS
+              // By default, row expands fully.
+              // Using this will shrink as its item in it and title will not go out
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                  child: Icon(CupertinoIcons.add),
+                  onTap: () => _startAddNewTransaction(context),
+                ),
+              ],
+            ),
+          )
+        : AppBar(
+            title: Text(
+              'Personal Expense',
+            ),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () => _startAddNewTransaction(context),
+              ),
+            ],
+          );
+  }
+
+  // Builder method
   List<Widget> _buildLandscapeContent(
       MediaQueryData mediaQuery, AppBar appBar, Widget txWidgetList) {
     return [
@@ -132,7 +166,8 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
   }
 
-  List<Widget> _buildPotraitContent(
+  // Builder method
+  List<Widget> _buildPortraitContent(
       MediaQueryData mediaQuery, AppBar appBar, Widget txWidgetList) {
     return [
       Container(
@@ -146,39 +181,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print('Build() MyHomePage');
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final bool isLandscape = mediaQuery.orientation == Orientation.landscape;
     // Add PreferredSizeWidget type to tell dart its type and method. To prevent errors
-    final PreferredSizeWidget appBar = Platform.isIOS
-        ? CupertinoNavigationBar(
-            middle: const Text(
-              'Personal Expense',
-            ),
-            trailing: Row(
-              // IOS
-              // By default, row expands fully.
-              // Using this will shrink as its item in it and title will not go out
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                GestureDetector(
-                  child: Icon(CupertinoIcons.add),
-                  onTap: () => _startAddNewTransaction(context),
-                ),
-              ],
-            ),
-          )
-        : AppBar(
-            title: Text(
-              'Personal Expense',
-            ),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () => _startAddNewTransaction(context),
-              ),
-            ],
-          );
+    final PreferredSizeWidget appBar = _buildAppBar();
 
     final txWidgetList = Container(
       height: (mediaQuery.size.height - appBar.preferredSize.height) * 0.7,
@@ -201,7 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 txWidgetList,
               ),
             if (!isLandscape)
-              ..._buildPotraitContent(
+              ..._buildPortraitContent(
                 mediaQuery,
                 appBar,
                 txWidgetList,
@@ -213,7 +219,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Platform.isIOS
         ? CupertinoPageScaffold(
-            navigationBar: appBar, child: null,
+            navigationBar: appBar,
+            child: null,
           )
         : Scaffold(
             appBar: appBar,
