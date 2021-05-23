@@ -61,7 +61,8 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+// use 'with' key to use a Mixin in the class. Here using WidgetsBindingObserver mixin
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final List<Transaction> _userTransactions = [];
 
   void _addNewTransaction(
@@ -94,6 +95,26 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   bool _showChart = false;
+
+  @override
+  void initState() {
+    // 'this' needs to have a didChangeAppLifecycleState() state in it before calling it
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  // This method is called whenever the lifeCycle state changes
+  @override
+  didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+  }
+
+  @override
+  dispose() {
+    // Removing listeners to avoid memory leaks
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
@@ -178,6 +199,9 @@ class _MyHomePageState extends State<MyHomePage> {
       txWidgetList
     ];
   }
+
+  // CONTEXT is the element is the element tree which contains meta info about the widget and its location
+  // Gives kind direct communication channel between widgets
 
   @override
   Widget build(BuildContext context) {

@@ -36,17 +36,17 @@ class _NewTransactionState extends State<NewTransaction> {
     super.initState();
   }
 
-  @override
-  void didUpdateWidget(covariant NewTransaction oldWidget) {
-    print('didUpdateWidget()');
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    print('dispose()');
-    super.dispose();
-  }
+  // @override
+  // void didUpdateWidget(covariant NewTransaction oldWidget) {
+  //   print('didUpdateWidget()');
+  //   super.didUpdateWidget(oldWidget);
+  // }
+  //
+  // @override
+  // void dispose() {
+  //   print('dispose()');
+  //   super.dispose();
+  // }
 
   void _submitData() {
     if (_amountController.text.isEmpty) {

@@ -36,12 +36,27 @@ class TransactionList extends StatelessWidget {
               );
             },
           )
-        : ListView.builder(
-            itemBuilder: (ctx, index) {
-              return TransactionItem(
-                  transaction: transactions[index], deleteTx: deleteTx);
-            },
-            itemCount: transactions.length,
+        // : ListView.builder(
+        //     itemBuilder: (ctx, index) {
+        //       return TransactionItem(
+        //           transaction: transactions[index], deleteTx: deleteTx);
+        //     },
+        //     itemCount: transactions.length,
+        //   );
+        // Changing it use key
+        : ListView(
+            children: [
+              ...transactions
+                  .map(
+                    (tx) => TransactionItem(
+                        // ValueKey creates a unique id based on transaction id and widget type which will be unique to every element
+                        // Overall it helps flutter to identify each element separately
+                        key: ValueKey(tx.id),
+                        transaction: tx,
+                        deleteTx: deleteTx),
+                  )
+                  .toList()
+            ],
           );
   }
 }
