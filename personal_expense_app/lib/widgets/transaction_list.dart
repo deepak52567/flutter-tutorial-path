@@ -55,7 +55,7 @@ class TransactionList extends StatelessWidget {
                         transaction: tx,
                         deleteTx: deleteTx),
                   )
-                  .toList()
+                  .toList(),
             ],
           );
   }
