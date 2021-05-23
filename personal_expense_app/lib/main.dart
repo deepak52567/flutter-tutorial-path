@@ -101,6 +101,49 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
+  List<Widget> _buildLandscapeContent(
+      MediaQueryData mediaQuery, AppBar appBar, Widget txWidgetList) {
+    return [
+      Row(
+        children: <Widget>[
+          Text(
+            "Show Chat",
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          // Adaptive means this switch will change its UI based on the OS
+          Switch.adaptive(
+              activeColor: Theme.of(context).accentColor,
+              value: _showChart,
+              onChanged: (val) {
+                setState(() {
+                  _showChart = val;
+                });
+              })
+        ],
+      ),
+      _showChart
+          ? Container(
+              // Use media query to get device data and manipulate the UI part with it
+              height:
+                  (mediaQuery.size.height - appBar.preferredSize.height) * 0.7,
+              child: Chart(_recentTransactions),
+            )
+          : txWidgetList
+    ];
+  }
+
+  List<Widget> _buildPotraitContent(
+      MediaQueryData mediaQuery, AppBar appBar, Widget txWidgetList) {
+    return [
+      Container(
+        // Use media query to get device data and manipulate the UI part with it
+        height: (mediaQuery.size.height - appBar.preferredSize.height) * 0.3,
+        child: Chart(_recentTransactions),
+      ),
+      txWidgetList
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     print('Build() MyHomePage');
@@ -152,41 +195,17 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             if (isLandscape)
-              Row(
-                children: <Widget>[
-                  Text(
-                    "Show Chat",
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  // Adaptive means this switch will change its UI based on the OS
-                  Switch.adaptive(
-                      activeColor: Theme.of(context).accentColor,
-                      value: _showChart,
-                      onChanged: (val) {
-                        setState(() {
-                          _showChart = val;
-                        });
-                      })
-                ],
+              ..._buildLandscapeContent(
+                mediaQuery,
+                appBar,
+                txWidgetList,
               ),
             if (!isLandscape)
-              Container(
-                // Use media query to get device data and manipulate the UI part with it
-                height: (mediaQuery.size.height - appBar.preferredSize.height) *
-                    0.3,
-                child: Chart(_recentTransactions),
+              ..._buildPotraitContent(
+                mediaQuery,
+                appBar,
+                txWidgetList,
               ),
-            if (!isLandscape) txWidgetList,
-            if (isLandscape)
-              _showChart
-                  ? Container(
-                      // Use media query to get device data and manipulate the UI part with it
-                      height: (mediaQuery.size.height -
-                              appBar.preferredSize.height) *
-                          0.7,
-                      child: Chart(_recentTransactions),
-                    )
-                  : txWidgetList,
           ],
         ),
       ),
@@ -194,7 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Platform.isIOS
         ? CupertinoPageScaffold(
-            navigationBar: appBar,
+            navigationBar: appBar, child: null,
           )
         : Scaffold(
             appBar: appBar,
