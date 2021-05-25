@@ -26,6 +26,7 @@ class CategoriesScreen extends StatelessWidget {
                 catData.id,
                 catData.title,
                 catData.color,
+                catData.bgImage,
                 key: ValueKey(catData.id),
               ),
             )
