@@ -14,30 +14,44 @@ class CategoriesScreen extends StatelessWidget {
         ],
         leading: IconButton(
           onPressed: () {},
-          icon: Icon(Icons.menu),
-          color: ThemeData.light().primaryIconTheme.color,
+          icon: Icon(Icons.account_circle),
+          color: Theme.of(context).primaryColor,
         ),
       ),
-      body: GridView(
-        padding: EdgeInsets.all(20),
-        children: DUMMY_CATEGORIES
-            .map(
-              (catData) => CategoryItem(
-                catData.id,
-                catData.title,
-                catData.color,
-                catData.bgImage,
-                key: ValueKey(catData.id),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+            child: Text(
+              'Categories',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          ),
+          Expanded(
+            child: GridView(
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+              children: DUMMY_CATEGORIES
+                  .map(
+                    (catData) => CategoryItem(
+                      catData.id,
+                      catData.title,
+                      catData.color,
+                      catData.bgImage,
+                      key: ValueKey(catData.id),
+                    ),
+                  )
+                  .toList(),
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+                // 3/2 basically represents value based on 200
+                childAspectRatio: 3 / 2,
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 15,
               ),
-            )
-            .toList(),
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 200,
-          // 3/2 basically represents value based on 200
-          childAspectRatio: 3 / 2,
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 15,
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

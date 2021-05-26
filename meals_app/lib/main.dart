@@ -12,7 +12,7 @@ class MealsApp extends StatelessWidget {
     return MaterialApp(
       title: 'Meals Recipe',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.teal,
         accentColor: Colors.deepOrangeAccent,
         //bg Color
         canvasColor: Color.fromRGBO(250, 255, 255, 1),
@@ -28,24 +28,24 @@ class MealsApp extends StatelessWidget {
                 fontFamily: 'Raleway',
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
+                color: Colors.black87
               ),
             ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
-                    fontFamily: 'RobotoCondensed',
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green),
+                  fontFamily: 'RobotoCondensed',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal,
+                ),
               ),
           backgroundColor: Color.fromRGBO(250, 255, 255, 1),
           elevation: 0,
         ),
       ),
       home: CategoriesScreen(),
-      routes: {
-        '/category-meals': (context) => CategoryMealsScreen()
-      },
+      routes: {'/category-meals': (ctx) => CategoryMealsScreen()},
     );
   }
 }
