@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CategoryMealsScreen extends StatelessWidget {
-  //
+  // Sets a fixed string which can be used over the other widget
+  static const routeName = '/category-meals';
+
   // final String categoryId;
   // final String categoryTitle;
   //
@@ -26,10 +28,11 @@ class CategoryMealsScreen extends StatelessWidget {
                 decoration: BoxDecoration(),
                 child: Text(categoryTitle!),
               ),
-              stretchModes: [
-                StretchMode.blurBackground
-              ],
-              background: Image.asset('assets/images/categories/${categoryImage}', fit: BoxFit.cover,),
+              stretchModes: [StretchMode.blurBackground],
+              background: Image.asset(
+                'assets/images/categories/${categoryImage}',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ],

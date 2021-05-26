@@ -25,11 +25,10 @@ class MealsApp extends StatelessWidget {
                 color: Color.fromRGBO(20, 51, 51, 1),
               ),
               headline6: TextStyle(
-                fontFamily: 'Raleway',
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87
-              ),
+                  fontFamily: 'Raleway',
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87),
             ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
@@ -44,8 +43,13 @@ class MealsApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: CategoriesScreen(),
-      routes: {'/category-meals': (ctx) => CategoryMealsScreen()},
+      // Initial route set to /
+      // home: CategoriesScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (ctx) => CategoriesScreen(),
+        CategoryMealsScreen.routeName: (ctx) => CategoryMealsScreen(),
+      },
     );
   }
 }
