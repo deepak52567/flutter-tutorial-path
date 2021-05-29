@@ -30,6 +30,9 @@ class MealsApp extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Colors.black87),
             ),
+        primaryIconTheme: ThemeData.light().primaryIconTheme.copyWith(
+          color: Colors.teal,
+        ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
@@ -39,6 +42,9 @@ class MealsApp extends StatelessWidget {
                   color: Colors.teal,
                 ),
               ),
+          actionsIconTheme: IconThemeData(
+            color: Theme.of(context).primaryIconTheme.color
+          ),
           backgroundColor: Color.fromRGBO(250, 255, 255, 1),
           elevation: 0,
         ),

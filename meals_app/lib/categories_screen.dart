@@ -21,13 +21,6 @@ class CategoriesScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-            child: Text(
-              'Categories',
-              style: Theme.of(context).textTheme.headline6,
-            ),
-          ),
           Expanded(
             child: GridView(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
