@@ -8,52 +8,52 @@ const DUMMY_CATEGORIES = const [
       id: 'c1',
       title: 'Italian',
       color: Colors.purple,
-      bgImage: 'italian.jpg',),
+      bgImage: 'assets/images/categories/italian.jpg',),
   Category(
       id: 'c2',
       title: 'Quick & Easy',
       color: Colors.red,
-      bgImage: 'quickAndEasy.jpg'),
+      bgImage: 'assets/images/categories/quickAndEasy.jpg'),
   Category(
       id: 'c3',
       title: 'Hamburgers',
       color: Colors.orange,
-      bgImage: 'hamburgers.jpg'),
+      bgImage: 'assets/images/categories/hamburgers.jpg'),
   Category(
       id: 'c4',
       title: 'German',
       color: Colors.amber,
-      bgImage: 'german.jpg'),
+      bgImage: 'assets/images/categories/german.jpg'),
   Category(
       id: 'c5',
       title: 'Light & Lovely',
       color: Colors.blue,
-      bgImage: 'lightAndLovely.jpg'),
+      bgImage: 'assets/images/categories/lightAndLovely.jpg'),
   Category(
       id: 'c6',
       title: 'Exotic',
       color: Colors.green,
-      bgImage: 'exotic.jpg'),
+      bgImage: 'assets/images/categories/exotic.jpg'),
   Category(
       id: 'c7',
       title: 'Breakfast',
       color: Colors.lightBlue,
-      bgImage: 'breakfast.jpg'),
+      bgImage: 'assets/images/categories/breakfast.jpg'),
   Category(
       id: 'c8',
       title: 'Asian',
       color: Colors.lightGreen,
-      bgImage: 'asian.jpg'),
+      bgImage: 'assets/images/categories/asian.jpg'),
   Category(
       id: 'c9',
       title: 'French',
       color: Colors.pink,
-      bgImage: 'french.jpg'),
+      bgImage: 'assets/images/categories/french.jpg'),
   Category(
       id: 'c10',
       title: 'Summer',
       color: Colors.teal,
-      bgImage: 'summer.jpg'),
+      bgImage: 'assets/images/categories/summer.jpg'),
 ];
 
 

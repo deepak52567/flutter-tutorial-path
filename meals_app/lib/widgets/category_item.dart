@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meals_app/screens/category_recipes_screen.dart';
 
 class CategoryItem extends StatelessWidget {
   final String id;
@@ -24,7 +25,7 @@ class CategoryItem extends StatelessWidget {
     Timer(Duration(milliseconds: 100), () {
       Navigator.pushNamed(
         ctx,
-        '/category-meals',
+        CategoryRecipesScreen.routeName,
         arguments: {
           'id': id,
           'title': title,
@@ -47,7 +48,7 @@ class CategoryItem extends StatelessWidget {
             constraints: BoxConstraints.expand(),
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/categories/${bgImage}'),
+                image: AssetImage(bgImage),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(8),
