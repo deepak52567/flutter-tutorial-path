@@ -37,6 +37,35 @@ class MealsHorizontalList extends StatelessWidget {
     });
   }
 
+  String complexityText(Complexity complexity) {
+    switch (complexity) {
+      case Complexity.Simple:
+        return 'Simple';
+      case Complexity.Challenging:
+        return 'Challenging';
+      case Complexity.Hard:
+        return 'Hard';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  String affordableText(Affordability aff) {
+    switch (aff) {
+      case Affordability.Affordable:
+        return '\$';
+        break;
+      case Affordability.Pricey:
+        return '\$\$';
+        break;
+      case Affordability.Pricey:
+        return '\$\$\$';
+        break;
+      default:
+        return '--';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,6 +96,16 @@ class MealsHorizontalList extends StatelessWidget {
                   ),
                 ),
                 Positioned(
+                  top: 10,
+                  right: (categoryMeals.length - 1) == index
+                      ? (10 + whiteSpace)
+                      : 10,
+                  child: Text(
+                    affordableText(categoryMeals[index].affordability),
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                  ),
+                ),
+                Positioned(
                   bottom: 10,
                   left: 30,
                   right: (categoryMeals.length - 1) == index
@@ -90,8 +129,11 @@ class MealsHorizontalList extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  // User text in container to contain and user overflow and wrap property
                                   Text(
                                     categoryMeals[index].title,
+                                    softWrap: true,
+                                    overflow: TextOverflow.fade,
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 14.0,
@@ -101,9 +143,12 @@ class MealsHorizontalList extends StatelessWidget {
                                     height: 5,
                                   ),
                                   Text(
-                                    categoryMeals[index].duration <= 1
-                                        ? '${categoryMeals[index].duration.toString()} Min'
-                                        : '${categoryMeals[index].duration.toString()} Mins',
+                                    (categoryMeals[index].duration <= 1
+                                            ? '${categoryMeals[index].duration.toString()} Min'
+                                            : '${categoryMeals[index].duration.toString()} Mins') +
+                                        ' | ' +
+                                        complexityText(
+                                            categoryMeals[index].complexity),
                                     style: TextStyle(
                                       color: Colors.black54,
                                       fontSize: 12,

@@ -29,10 +29,6 @@ class CategoryMealsScreen extends StatelessWidget {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text(
-            categoryTitle!,
-            style: TextStyle(color: Colors.white),
-          ),
           actionsIconTheme: IconTheme.of(context),
         ),
         body: Column(
@@ -111,15 +107,28 @@ class CategoryMealsScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.5,
-              child: ListView.builder(
-                itemBuilder: (ctx, index) {
-                  return Text(categoryMeals[index].title);
-                },
-                itemCount: categoryMeals.length,
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(15),
+                  child: Text(
+                    categoryTitle!,
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  child: ListView.builder(
+                    itemBuilder: (ctx, index) {
+                      return Text(categoryMeals[index].title);
+                    },
+                    itemCount: categoryMeals.length,
+                  ),
+                ),
+              ],
             ),
+
           ],
         ),
       ),

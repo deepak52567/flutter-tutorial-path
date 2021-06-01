@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:meals_app/models/dummy_data.dart';
 import 'package:meals_app/widgets/meals_horizontal_list.dart';
+import 'package:meals_app/widgets/meals_searchbar.dart';
 
 class CategoryRecipesScreen extends StatelessWidget {
   static const routeName = '/category-recipes';
@@ -26,6 +27,10 @@ class CategoryRecipesScreen extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+              child: MealsSearchBar(),
+            ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
               child: Text(
