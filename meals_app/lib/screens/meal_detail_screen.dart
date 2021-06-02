@@ -5,18 +5,11 @@ import 'package:flutter/rendering.dart';
 import 'package:meals_app/models/dummy_data.dart';
 import 'package:meals_app/models/meal.dart';
 
-class CategoryMealScreen extends StatelessWidget {
+class MealDetailScreen extends StatelessWidget {
   // Sets a fixed string which can be used over the other widget
-  static const routeName = '/category-meals';
+  static const routeName = '/meal-detail';
 
-  // final String categoryId;
-  // final String categoryTitle;
-  //
-  // const CategoryMealsScreen(this.categoryId, this.categoryTitle, {Key? key})
-  //     : super(key: key);
-
-
-  Meal setMealDetails(String mealId) {
+  Meal getMealDetails(String mealId) {
     final index = DUMMY_MEALS.indexWhere((element) => element.id == mealId);
     return DUMMY_MEALS.elementAt(index);
   }
@@ -24,10 +17,9 @@ class CategoryMealScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // To get route arguments
-    final routeArgs =
-        ModalRoute.of(context)?.settings.arguments as Map<String, String>;
-    final categoryID = routeArgs['id'];
-    final Meal mealDetail = setMealDetails(categoryID!);
+    final routeArgs = ModalRoute.of(context)?.settings.arguments as String;
+    final mealID = routeArgs;
+    final Meal mealDetail = getMealDetails(mealID);
 
     return Material(
       child: Scaffold(
@@ -127,23 +119,23 @@ class CategoryMealScreen extends StatelessWidget {
                 ],
               ),
             ),
-            ListView(
-              padding: EdgeInsets.all(15),
-              children: [
-                Text(
-                  mealDetail.title,
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-                ListView.builder(
-                  itemCount: mealDetail.ingredients.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text('${mealDetail.ingredients[index]}'),
-                    );
-                  },
-                ),
-              ],
-            ),
+            // ListView(
+            //   padding: EdgeInsets.all(15),
+            //   children: [
+            //     Text(
+            //       mealDetail.title,
+            //       style: Theme.of(context).textTheme.headline5,
+            //     ),
+            //     ListView.builder(
+            //       itemCount: mealDetail.ingredients.length,
+            //       itemBuilder: (context, index) {
+            //         return ListTile(
+            //           title: Text('${mealDetail.ingredients[index]}'),
+            //         );
+            //       },
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),

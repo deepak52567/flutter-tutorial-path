@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
-import 'package:meals_app/screens/category_meal_screen.dart';
-
+import 'package:meals_app/screens/meal_detail_screen.dart';
 
 class MealsRecipeItem extends StatelessWidget {
   final num categoriesLength;
@@ -14,11 +12,11 @@ class MealsRecipeItem extends StatelessWidget {
 
   MealsRecipeItem(
       {required this.categoriesLength,
-        required this.index,
-        required this.whiteSpace,
-        required this.categoryMeal});
+      required this.index,
+      required this.whiteSpace,
+      required this.categoryMeal});
 
-  void selectRecipe(BuildContext ctx, String id, String title, String bgImage) {
+  void selectMeal(BuildContext ctx) {
     // Navigator is a class which helps to navigate between screen and needs to be connected with context
     // Navigator.of(ctx).push(MaterialPageRoute(
     //   builder: (_) {
@@ -26,17 +24,8 @@ class MealsRecipeItem extends StatelessWidget {
     //   },
     // ));
     // Named Routes
-    Timer(Duration(milliseconds: 100), () {
-      Navigator.pushNamed(
-        ctx,
-        CategoryMealScreen.routeName,
-        arguments: {
-          'id': id,
-          'title': title,
-          'bgImage': bgImage,
-        },
-      );
-    });
+    Navigator.of(ctx)
+        .pushNamed(MealDetailScreen.routeName, arguments: categoryMeal.id);
   }
 
   String get complexityText {
@@ -134,8 +123,8 @@ class MealsRecipeItem extends StatelessWidget {
                             ),
                             Text(
                               (categoryMeal.duration <= 1
-                                  ? '${categoryMeal.duration.toString()} Min'
-                                  : '${categoryMeal.duration.toString()} Mins') +
+                                      ? '${categoryMeal.duration.toString()} Min'
+                                      : '${categoryMeal.duration.toString()} Mins') +
                                   ' | ' +
                                   complexityText,
                               style: TextStyle(
@@ -152,7 +141,7 @@ class MealsRecipeItem extends StatelessWidget {
                       flex: 1,
                       child: Container(
                         padding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -179,11 +168,8 @@ class MealsRecipeItem extends StatelessWidget {
               child: InkWell(
                 splashColor: Theme.of(context).primaryColor.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(8),
-                onTap: () => selectRecipe(
+                onTap: () => selectMeal(
                   context,
-                  categoryMeal.id,
-                  categoryMeal.title,
-                  categoryMeal.imageUrl,
                 ),
               ),
             ),
