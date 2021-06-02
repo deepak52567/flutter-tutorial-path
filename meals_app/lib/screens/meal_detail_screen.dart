@@ -9,9 +9,23 @@ class MealDetailScreen extends StatelessWidget {
   // Sets a fixed string which can be used over the other widget
   static const routeName = '/meal-detail';
 
-  Meal getMealDetails(String mealId) {
-    final index = DUMMY_MEALS.indexWhere((element) => element.id == mealId);
-    return DUMMY_MEALS.elementAt(index);
+  Widget buildSectionTitle(BuildContext ctx, String title) {
+    return Container(
+      alignment: Alignment.centerLeft,
+      padding: EdgeInsets.all(20),
+      child: Text(
+        title,
+        style: Theme.of(ctx).textTheme.headline5,
+      ),
+    );
+  }
+
+  Widget buildContainer(Widget child) {
+    return Container(
+      height: 200,
+      width: double.infinity,
+      child: child,
+    );
   }
 
   @override
@@ -19,7 +33,8 @@ class MealDetailScreen extends StatelessWidget {
     // To get route arguments
     final routeArgs = ModalRoute.of(context)?.settings.arguments as String;
     final mealID = routeArgs;
-    final Meal mealDetail = getMealDetails(mealID);
+    final Meal mealDetail =
+        DUMMY_MEALS.firstWhere((element) => element.id == mealID);
 
     return Material(
       child: Scaffold(
@@ -35,114 +50,135 @@ class MealDetailScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: Column(
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(15),
-              height: MediaQuery.of(context).size.height * 0.5,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.white,
-                    Colors.transparent,
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.center,
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(15),
+                height: MediaQuery.of(context).size.height * 0.5,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white,
+                      Colors.transparent,
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.center,
+                  ),
+                  image: DecorationImage(
+                    image: NetworkImage(mealDetail.imageUrl),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                image: DecorationImage(
-                  image: NetworkImage(mealDetail.imageUrl),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(
-                        sigmaY: 19.2,
-                        sigmaX: 19.2,
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  backgroundImage: NetworkImage(
-                                      'https://manskkp.lv/assets/images/users/4.jpg'),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Recipe By',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        'Renata Moe',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                        textAlign: TextAlign.start,
-                                      ),
-                                    ],
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(
+                          sigmaY: 19.2,
+                          sigmaX: 19.2,
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    backgroundImage: NetworkImage(
+                                        'https://manskkp.lv/assets/images/users/4.jpg'),
                                   ),
-                                ),
-                              ],
-                            ),
-                            Icon(
-                              Icons.arrow_forward_rounded,
-                              color: Colors.white,
-                            ),
-                          ],
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Recipe By',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1,
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          'Renata Moe',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                          ),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Icon(
+                                Icons.arrow_forward_rounded,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            // ListView(
-            //   padding: EdgeInsets.all(15),
-            //   children: [
-            //     Text(
-            //       mealDetail.title,
-            //       style: Theme.of(context).textTheme.headline5,
-            //     ),
-            //     ListView.builder(
-            //       itemCount: mealDetail.ingredients.length,
-            //       itemBuilder: (context, index) {
-            //         return ListTile(
-            //           title: Text('${mealDetail.ingredients[index]}'),
-            //         );
-            //       },
-            //     ),
-            //   ],
-            // ),
-          ],
+              buildSectionTitle(context, mealDetail.title),
+              buildContainer(
+                ListView.builder(
+                  itemCount: mealDetail.ingredients.length,
+                  itemBuilder: (ctx, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
+                      child: Card(
+                        child: Text(
+                          '${mealDetail.ingredients[index]}',
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              buildContainer(ListView.builder(
+                itemBuilder: (context, index) => Column(
+                  children: [
+                    ListTile(
+                      leading: CircleAvatar(
+                        child: Text('# ${index + 1}'),
+                      ),
+                      title: Text(
+                        mealDetail.steps[index],
+                      ),
+                    ),
+                    Divider(),
+                  ],
+                ),
+                itemCount: mealDetail.steps.length,
+              ))
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
 // class MealsAppBar extends SliverPersistentHeaderDelegate {
 //   final double expandedHeight;
 //   final String appBarImage;

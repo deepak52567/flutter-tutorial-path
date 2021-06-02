@@ -45,13 +45,10 @@ class MealsRecipeItem extends StatelessWidget {
     switch (categoryMeal.affordability) {
       case Affordability.Affordable:
         return '\$';
-        break;
       case Affordability.Pricey:
         return '\$\$';
-        break;
       case Affordability.Pricey:
         return '\$\$\$';
-        break;
       default:
         return '--';
     }

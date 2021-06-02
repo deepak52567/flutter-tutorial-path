@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/screens/categories_screen.dart';
-import 'package:meals_app/screens/meal_detail_screen.dart';
 import 'package:meals_app/screens/category_recipes_screen.dart';
+import 'package:meals_app/screens/meal_detail_screen.dart';
 
 void main() {
   runApp(MealsApp());
@@ -32,8 +32,8 @@ class MealsApp extends StatelessWidget {
                   color: Colors.black87),
             ),
         primaryIconTheme: ThemeData.light().primaryIconTheme.copyWith(
-          color: Colors.teal,
-        ),
+              color: Colors.teal,
+            ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
@@ -43,9 +43,8 @@ class MealsApp extends StatelessWidget {
                   color: Colors.teal,
                 ),
               ),
-          actionsIconTheme: IconThemeData(
-            color: Theme.of(context).primaryIconTheme.color
-          ),
+          actionsIconTheme:
+              IconThemeData(color: Theme.of(context).primaryIconTheme.color),
           backgroundColor: Color.fromRGBO(250, 255, 255, 1),
           elevation: 0,
         ),
@@ -58,6 +57,19 @@ class MealsApp extends StatelessWidget {
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
         CategoryRecipesScreen.routeName: (ctx) => CategoryRecipesScreen(),
       },
+      // onGenerateRoute is your fallback/ option to have more control about the
+      // creation + configuration of routing actions (= MaterialPageRoute that then loads a specific screen widget).
+      //Gives some information about route, i.e args and routes
+      // onGenerateRoute: (setting) {
+      //   print(setting.arguments);
+      //   print(setting.name);
+      //   // Also use conditional approach using name or arguments
+      //   return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
+      // },
+      // Handles unknown route handling  i.e 404 or Homescreen or Auth handling too
+      // onUnknownRoute: (settings) {
+      //   return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
+      // },
     );
   }
 }
