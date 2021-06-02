@@ -1,9 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:meals_app/models/dummy_data.dart';
+import 'package:meals_app/models/meal.dart';
 
-class CategoryMealsScreen extends StatelessWidget {
+class CategoryMealScreen extends StatelessWidget {
   // Sets a fixed string which can be used over the other widget
   static const routeName = '/category-meals';
 
@@ -13,33 +15,51 @@ class CategoryMealsScreen extends StatelessWidget {
   // const CategoryMealsScreen(this.categoryId, this.categoryTitle, {Key? key})
   //     : super(key: key);
 
+
+  Meal setMealDetails(String mealId) {
+    final index = DUMMY_MEALS.indexWhere((element) => element.id == mealId);
+    return DUMMY_MEALS.elementAt(index);
+  }
+
   @override
   Widget build(BuildContext context) {
     // To get route arguments
     final routeArgs =
         ModalRoute.of(context)?.settings.arguments as Map<String, String>;
     final categoryID = routeArgs['id'];
-    final categoryTitle = routeArgs['title'];
-    final categoryImage = routeArgs['bgImage'];
-    final categoryMeals = DUMMY_MEALS
-        .where((meal) => meal.categories.contains(categoryID))
-        .toList();
+    final Meal mealDetail = setMealDetails(categoryID!);
+
     return Material(
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           actionsIconTheme: IconTheme.of(context),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.bookmark),
+              color: Theme.of(context).primaryIconTheme.color,
+              onPressed: () {},
+            ),
+          ],
         ),
         body: Column(
-          children: [
+          children: <Widget>[
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(15),
               height: MediaQuery.of(context).size.height * 0.5,
               decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.white,
+                    Colors.transparent,
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.center,
+                ),
                 image: DecorationImage(
-                  image: NetworkImage(categoryImage!),
+                  image: NetworkImage(mealDetail.imageUrl),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -107,28 +127,23 @@ class CategoryMealsScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            ListView(
+              padding: EdgeInsets.all(15),
               children: [
-                Container(
-                  padding: EdgeInsets.all(15),
-                  child: Text(
-                    categoryTitle!,
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
+                Text(
+                  mealDetail.title,
+                  style: Theme.of(context).textTheme.headline5,
                 ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  child: ListView.builder(
-                    itemBuilder: (ctx, index) {
-                      return Text(categoryMeals[index].title);
-                    },
-                    itemCount: categoryMeals.length,
-                  ),
+                ListView.builder(
+                  itemCount: mealDetail.ingredients.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text('${mealDetail.ingredients[index]}'),
+                    );
+                  },
                 ),
               ],
             ),
-
           ],
         ),
       ),

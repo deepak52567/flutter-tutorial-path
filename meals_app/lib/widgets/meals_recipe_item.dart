@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
-import 'package:meals_app/screens/category_meals_screen.dart';
+import 'package:meals_app/screens/category_meal_screen.dart';
 
 
 class MealsRecipeItem extends StatelessWidget {
@@ -29,7 +29,7 @@ class MealsRecipeItem extends StatelessWidget {
     Timer(Duration(milliseconds: 100), () {
       Navigator.pushNamed(
         ctx,
-        CategoryMealsScreen.routeName,
+        CategoryMealScreen.routeName,
         arguments: {
           'id': id,
           'title': title,
