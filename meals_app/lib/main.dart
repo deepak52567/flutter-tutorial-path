@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/screens/categories_screen.dart';
 import 'package:meals_app/screens/category_recipes_screen.dart';
+import 'package:meals_app/screens/filters_screen.dart';
 import 'package:meals_app/screens/meal_detail_screen.dart';
 import 'package:meals_app/screens/tabs_screen.dart';
 
@@ -57,6 +57,7 @@ class MealsApp extends StatelessWidget {
         '/': (ctx) => TabsScreen(),
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
         CategoryRecipesScreen.routeName: (ctx) => CategoryRecipesScreen(),
+        FiltersScreen.routeName: (ctx) => FiltersScreen(),
       },
       // onGenerateRoute is your fallback/ option to have more control about the
       // creation + configuration of routing actions (= MaterialPageRoute that then loads a specific screen widget).

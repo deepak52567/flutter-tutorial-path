@@ -22,7 +22,6 @@ class MealDetailScreen extends StatelessWidget {
 
   Widget buildContainer(Widget child) {
     return Container(
-      height: 200,
       width: double.infinity,
       child: child,
     );
@@ -139,6 +138,9 @@ class MealDetailScreen extends StatelessWidget {
               buildSectionTitle(context, mealDetail.title),
               buildContainer(
                 ListView.builder(
+                  // shrinkWrap & NeverScrollableScrollPhysics to avoid internal scroll in listview
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount: mealDetail.ingredients.length,
                   itemBuilder: (ctx, index) {
                     return Padding(
@@ -157,6 +159,8 @@ class MealDetailScreen extends StatelessWidget {
                 ),
               ),
               buildContainer(ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) => Column(
                   children: [
                     ListTile(
