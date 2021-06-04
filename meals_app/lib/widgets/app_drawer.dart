@@ -43,13 +43,16 @@ class AppDrawer extends StatelessWidget {
             context,
             'Meals',
             Icons.restaurant,
-            () => Navigator.of(context).pushNamed('/'),
+            // () => Navigator.of(context).pushNamed('/'),
+            () => Navigator.of(context).pushReplacementNamed('/'),
           ),
           _buildListTile(
             context,
             'Filters',
             Icons.filter_alt,
-            () => Navigator.of(context).pushNamed(FiltersScreen.routeName),
+            // pushReplacementNamed replaces the existing stack of pages
+            () => Navigator.of(context)
+                .pushReplacementNamed(FiltersScreen.routeName),
           ),
         ],
       ),
