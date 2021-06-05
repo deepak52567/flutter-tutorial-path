@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:meals_app/models/dummy_data.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/widgets/meals_horizontal_list.dart';
 import 'package:meals_app/widgets/meals_searchbar.dart';
 
 class CategoryRecipesScreen extends StatefulWidget {
   static const routeName = '/category-recipes';
+
+  final List<Meal> availableMeals;
+
+  CategoryRecipesScreen(this.availableMeals);
 
   @override
   _CategoryRecipesScreenState createState() => _CategoryRecipesScreenState();
@@ -30,7 +33,7 @@ class _CategoryRecipesScreenState extends State<CategoryRecipesScreen> {
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
     categoryID = routeArgs['id'];
     categoryTitle = routeArgs['title'];
-    categoryMeals = DUMMY_MEALS
+    categoryMeals = widget.availableMeals
         .where((meal) => meal.categories.contains(categoryID))
         .toList();
     super.didChangeDependencies();
