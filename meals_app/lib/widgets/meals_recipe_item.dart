@@ -9,12 +9,15 @@ class MealsRecipeItem extends StatelessWidget {
   final num index;
   final double whiteSpace;
   final Meal categoryMeal;
+  final Function removeItem;
 
-  MealsRecipeItem(
-      {required this.categoriesLength,
-      required this.index,
-      required this.whiteSpace,
-      required this.categoryMeal});
+  MealsRecipeItem({
+    required this.categoriesLength,
+    required this.index,
+    required this.whiteSpace,
+    required this.categoryMeal,
+    required this.removeItem,
+  });
 
   void selectMeal(BuildContext ctx) {
     // Navigator is a class which helps to navigate between screen and needs to be connected with context
@@ -24,8 +27,14 @@ class MealsRecipeItem extends StatelessWidget {
     //   },
     // ));
     // Named Routes
+    // pushNamed return Future, which refers to future expected data from it. Kind of promise
     Navigator.of(ctx)
-        .pushNamed(MealDetailScreen.routeName, arguments: categoryMeal.id);
+        .pushNamed(MealDetailScreen.routeName, arguments: categoryMeal.id)
+        .then((value) {
+      if (value != null) {
+        removeItem(value);
+      }
+    });
   }
 
   String get complexityText {
@@ -144,8 +153,12 @@ class MealsRecipeItem extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Icon(
-                              Icons.bookmark,
-                              color: Theme.of(context).primaryColor,
+                              categoryMeal.isBookmarked
+                                  ? Icons.bookmark
+                                  : Icons.bookmark_outline,
+                              color: categoryMeal.isBookmarked
+                                  ? Theme.of(context).primaryIconTheme.color
+                                  : Theme.of(context).accentIconTheme.color,
                               size: whiteSpace,
                             )
                           ],

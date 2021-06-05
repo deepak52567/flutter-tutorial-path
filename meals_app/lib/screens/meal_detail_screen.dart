@@ -43,10 +43,14 @@ class MealDetailScreen extends StatelessWidget {
           actionsIconTheme: IconTheme.of(context),
           actions: [
             IconButton(
-              icon: Icon(Icons.bookmark),
-              color: Theme.of(context).primaryIconTheme.color,
+              icon: mealDetail.isBookmarked
+                  ? Icon(Icons.bookmark)
+                  : Icon(Icons.bookmark_outline),
+              color: mealDetail.isBookmarked
+                  ? Theme.of(context).primaryIconTheme.color
+                  : Theme.of(context).accentIconTheme.color,
               onPressed: () {},
-            ),
+            )
           ],
         ),
         body: SingleChildScrollView(
@@ -178,6 +182,12 @@ class MealDetailScreen extends StatelessWidget {
               ))
             ],
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.delete),
+          // Kind of work as backbutton, removes current screen from stack
+          // Can also pass data back to stack
+          onPressed: () => Navigator.of(context).pop(mealDetail.id),
         ),
       ),
     );

@@ -2,23 +2,48 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:meals_app/models/dummy_data.dart';
+import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/widgets/meals_horizontal_list.dart';
 import 'package:meals_app/widgets/meals_searchbar.dart';
 
-class CategoryRecipesScreen extends StatelessWidget {
+class CategoryRecipesScreen extends StatefulWidget {
   static const routeName = '/category-recipes';
 
   @override
-  Widget build(BuildContext context) {
+  _CategoryRecipesScreenState createState() => _CategoryRecipesScreenState();
+}
+
+class _CategoryRecipesScreenState extends State<CategoryRecipesScreen> {
+  late String? categoryID;
+  late String? categoryTitle;
+  late List<Meal> categoryMeals;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
     // To get route arguments
-    final routeArgs =
-        ModalRoute.of(context)?.settings.arguments as Map<String, String>;
-    final categoryID = routeArgs['id'];
-    final categoryTitle = routeArgs['title'];
-    final categoryMeals = DUMMY_MEALS
+    final Map<String, String> routeArgs =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    categoryID = routeArgs['id'];
+    categoryTitle = routeArgs['title'];
+    categoryMeals = DUMMY_MEALS
         .where((meal) => meal.categories.contains(categoryID))
         .toList();
+    super.didChangeDependencies();
+  }
 
+  void _removeMeal(mealID) {
+    setState(() {
+      categoryMeals.removeWhere((meal) => meal.id == mealID);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Material(
       child: Scaffold(
         appBar: AppBar(
@@ -41,6 +66,7 @@ class CategoryRecipesScreen extends StatelessWidget {
             MealsHorizontalList(
               categoryMeals: categoryMeals,
               whiteSpace: 20.0,
+              removeItem: _removeMeal,
             ),
           ],
         ),
