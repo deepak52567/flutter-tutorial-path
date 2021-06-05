@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/bookmarks_screen.dart';
 import 'package:meals_app/screens/categories_screen.dart';
 import 'package:meals_app/widgets/app_drawer.dart';
-
-class TabsScreen extends StatefulWidget {
-  const TabsScreen({Key? key}) : super(key: key);
-
-  @override
-  _TabsScreenState createState() => _TabsScreenState();
-}
 
 class TabsScreenModel {
   final String title;
@@ -19,21 +13,39 @@ class TabsScreenModel {
       {required this.title, required this.page, required this.pageIcon});
 }
 
-class _TabsScreenState extends State<TabsScreen> {
-  final List<TabsScreenModel> _screens = [
-    TabsScreenModel(
-      title: 'Categories',
-      page: CategoriesScreen(),
-      pageIcon: Icons.category,
-    ),
-    TabsScreenModel(
-      title: 'Bookmarks',
-      page: BookmarksScreen(),
-      pageIcon: Icons.collections_bookmark,
-    ),
-  ];
+class TabsScreen extends StatefulWidget {
+  final List<Meal> bookmarkedMeals;
+  final void Function(String mealID) toggleBookmark;
+  final bool Function(String mealID) isMealBookmarked;
 
+  const TabsScreen(this.bookmarkedMeals, this.toggleBookmark, this.isMealBookmarked, {Key? key})
+      : super(key: key);
+
+  @override
+  _TabsScreenState createState() => _TabsScreenState();
+}
+
+class _TabsScreenState extends State<TabsScreen> {
+  late List<TabsScreenModel> _screens;
   int _selectedPageIndex = 0;
+
+  @override
+  initState() {
+    // Shifted _screens assignment to initState to use widget instance
+    _screens = [
+      TabsScreenModel(
+        title: 'Categories',
+        page: CategoriesScreen(),
+        pageIcon: Icons.category,
+      ),
+      TabsScreenModel(
+        title: 'Bookmarks',
+        page: BookmarksScreen(widget.bookmarkedMeals, widget.toggleBookmark, widget.isMealBookmarked),
+        pageIcon: Icons.collections_bookmark,
+      ),
+    ];
+    super.initState();
+  }
 
   void _selectPage(int index) {
     setState(() {

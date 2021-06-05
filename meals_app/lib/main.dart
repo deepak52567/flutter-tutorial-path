@@ -24,6 +24,7 @@ class _MealsAppState extends State<MealsApp> {
   };
 
   List<Meal> _availableMeals = DUMMY_MEALS;
+  List<Meal> _bookmarkedMeals = [];
 
   void _setFilters(Map<String, bool> filtersData) {
     setState(() {
@@ -44,6 +45,25 @@ class _MealsAppState extends State<MealsApp> {
         return true;
       }).toList();
     });
+  }
+
+  void _toggleBookmark(String mealID) {
+    final existingIndex =
+        _bookmarkedMeals.indexWhere((meal) => meal.id == mealID);
+    if (existingIndex >= 0) {
+      setState(() {
+        _bookmarkedMeals.removeAt(existingIndex);
+      });
+    } else {
+      setState(() {
+        _bookmarkedMeals
+            .add(DUMMY_MEALS.firstWhere((meal) => meal.id == mealID));
+      });
+    }
+  }
+
+  bool _isMealBookmarked(String mealID) {
+    return _bookmarkedMeals.any((meal) => meal.id == mealID);
   }
 
   @override
@@ -91,8 +111,9 @@ class _MealsAppState extends State<MealsApp> {
       // home: CategoriesScreen(),
       initialRoute: '/',
       routes: {
-        '/': (ctx) => TabsScreen(),
-        MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
+        '/': (ctx) => TabsScreen(_bookmarkedMeals, _toggleBookmark, _isMealBookmarked),
+        MealDetailScreen.routeName: (ctx) =>
+            MealDetailScreen(_toggleBookmark, _isMealBookmarked),
         CategoryRecipesScreen.routeName: (ctx) =>
             CategoryRecipesScreen(_availableMeals),
         FiltersScreen.routeName: (ctx) => FiltersScreen(_filters, _setFilters),

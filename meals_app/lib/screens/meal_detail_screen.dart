@@ -9,6 +9,11 @@ class MealDetailScreen extends StatelessWidget {
   // Sets a fixed string which can be used over the other widget
   static const routeName = '/meal-detail';
 
+  final Function(String) toggleBookmarks;
+  final bool Function(String mealID) isMealBookmarked;
+
+  MealDetailScreen(this.toggleBookmarks, this.isMealBookmarked);
+
   Widget buildSectionTitle(BuildContext ctx, String title) {
     return Container(
       alignment: Alignment.centerLeft,
@@ -43,13 +48,13 @@ class MealDetailScreen extends StatelessWidget {
           actionsIconTheme: IconTheme.of(context),
           actions: [
             IconButton(
-              icon: mealDetail.isBookmarked
+              icon: isMealBookmarked(mealDetail.id)
                   ? Icon(Icons.bookmark)
                   : Icon(Icons.bookmark_outline),
-              color: mealDetail.isBookmarked
+              color: isMealBookmarked(mealDetail.id)
                   ? Theme.of(context).primaryIconTheme.color
                   : Theme.of(context).accentIconTheme.color,
-              onPressed: () {},
+              onPressed: () => toggleBookmarks(mealDetail.id),
             )
           ],
         ),
@@ -162,30 +167,32 @@ class MealDetailScreen extends StatelessWidget {
                   },
                 ),
               ),
-              buildContainer(ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    ListTile(
-                      leading: CircleAvatar(
-                        child: Text('# ${index + 1}'),
+              buildContainer(
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => Column(
+                    children: [
+                      ListTile(
+                        leading: CircleAvatar(
+                          child: Text('# ${index + 1}'),
+                        ),
+                        title: Text(
+                          mealDetail.steps[index],
+                        ),
                       ),
-                      title: Text(
-                        mealDetail.steps[index],
-                      ),
-                    ),
-                    Divider(),
-                  ],
+                      Divider(),
+                    ],
+                  ),
+                  itemCount: mealDetail.steps.length,
                 ),
-                itemCount: mealDetail.steps.length,
-              ))
+              ),
             ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.delete),
-          // Kind of work as backbutton, removes current screen from stack
+          // Kind of work as back button, removes current screen from stack
           // Can also pass data back to stack
           onPressed: () => Navigator.of(context).pop(mealDetail.id),
         ),
