@@ -383,7 +383,8 @@ class MealDetailScreen extends StatelessWidget {
                         mealDetail.complexity,
                         mealDetail.id),
                   ),
-                  buildSectionSubTitle(context, 'Ingredients', mealDetail.ingredients.length),
+                  buildSectionSubTitle(
+                      context, 'Ingredients', mealDetail.ingredients.length),
                   buildContainer(
                     ListView.builder(
                       // shrinkWrap & NeverScrollableScrollPhysics to avoid internal scroll in listview
@@ -411,7 +412,8 @@ class MealDetailScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                  buildSectionSubTitle(context, 'Steps', mealDetail.steps.length),
+                  buildSectionSubTitle(
+                      context, 'Steps', mealDetail.steps.length),
                   buildContainer(
                     ListView.builder(
                       shrinkWrap: true,
