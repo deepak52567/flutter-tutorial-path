@@ -87,6 +87,10 @@ class _MealsAppState extends State<MealsApp> {
                   fontFamily: 'Raleway',
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black87.withOpacity(0.9)),
+              headline5: TextStyle(
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.bold,
                   color: Colors.black87),
             ),
         primaryIconTheme: ThemeData.light().primaryIconTheme.copyWith(
@@ -111,11 +115,12 @@ class _MealsAppState extends State<MealsApp> {
       // home: CategoriesScreen(),
       initialRoute: '/',
       routes: {
-        '/': (ctx) => TabsScreen(_bookmarkedMeals, _toggleBookmark, _isMealBookmarked),
+        '/': (ctx) =>
+            TabsScreen(_bookmarkedMeals, _toggleBookmark, _isMealBookmarked),
         MealDetailScreen.routeName: (ctx) =>
             MealDetailScreen(_toggleBookmark, _isMealBookmarked),
         CategoryRecipesScreen.routeName: (ctx) =>
-            CategoryRecipesScreen(_availableMeals),
+            CategoryRecipesScreen(_availableMeals, _isMealBookmarked),
         FiltersScreen.routeName: (ctx) => FiltersScreen(_filters, _setFilters),
       },
       // onGenerateRoute is your fallback/ option to have more control about the

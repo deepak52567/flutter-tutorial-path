@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/meal_detail_screen.dart';
+import 'package:meals_app/widgets/meals_serving_complexity.dart';
 
 class MealsRecipeItem extends StatelessWidget {
   final num categoriesLength;
@@ -10,14 +11,15 @@ class MealsRecipeItem extends StatelessWidget {
   final double whiteSpace;
   final Meal categoryMeal;
   final Function removeItem;
+  final bool Function(String mealID) isMealBookmarked;
 
-  MealsRecipeItem({
-    required this.categoriesLength,
-    required this.index,
-    required this.whiteSpace,
-    required this.categoryMeal,
-    required this.removeItem,
-  });
+  MealsRecipeItem(
+      {required this.categoriesLength,
+      required this.index,
+      required this.whiteSpace,
+      required this.categoryMeal,
+      required this.removeItem,
+      required this.isMealBookmarked});
 
   void selectMeal(BuildContext ctx) {
     // Navigator is a class which helps to navigate between screen and needs to be connected with context
@@ -35,19 +37,6 @@ class MealsRecipeItem extends StatelessWidget {
         removeItem(value);
       }
     });
-  }
-
-  String get complexityText {
-    switch (categoryMeal.complexity) {
-      case Complexity.Simple:
-        return 'Simple';
-      case Complexity.Challenging:
-        return 'Challenging';
-      case Complexity.Hard:
-        return 'Hard';
-      default:
-        return 'Unknown';
-    }
   }
 
   String get affordableText {
@@ -127,18 +116,10 @@ class MealsRecipeItem extends StatelessWidget {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              (categoryMeal.duration <= 1
-                                      ? '${categoryMeal.duration.toString()} Min'
-                                      : '${categoryMeal.duration.toString()} Mins') +
-                                  ' | ' +
-                                  complexityText,
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            )
+                            MealsServingComplexity(
+                              duration: categoryMeal.duration,
+                              complexity: categoryMeal.complexity,
+                            ),
                           ],
                         ),
                       ),
@@ -153,10 +134,10 @@ class MealsRecipeItem extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Icon(
-                              categoryMeal.isBookmarked
+                              isMealBookmarked(categoryMeal.id)
                                   ? Icons.bookmark
                                   : Icons.bookmark_outline,
-                              color: categoryMeal.isBookmarked
+                              color: isMealBookmarked(categoryMeal.id)
                                   ? Theme.of(context).primaryIconTheme.color
                                   : Theme.of(context).accentIconTheme.color,
                               size: whiteSpace,

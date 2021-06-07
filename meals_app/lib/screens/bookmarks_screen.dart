@@ -32,15 +32,7 @@ class BookmarksScreen extends StatelessWidget {
             leading: CircleAvatar(
               backgroundImage: NetworkImage(bookmarkedMeals[index].imageUrl),
             ),
-            trailing: IconButton(
-              icon: isMealBookmarked(bookmarkedMeals[index].id)
-                  ? Icon(Icons.bookmark)
-                  : Icon(Icons.bookmark_outline),
-              color: isMealBookmarked(bookmarkedMeals[index].id)
-                  ? Theme.of(context).primaryIconTheme.color
-                  : Theme.of(context).accentIconTheme.color,
-              onPressed: () => toggleBookmark(bookmarkedMeals[index].id),
-            ),
+            trailing: Icon(Icons.arrow_forward_rounded),
           );
         },
       );

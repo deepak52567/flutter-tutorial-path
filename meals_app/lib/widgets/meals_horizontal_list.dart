@@ -8,13 +8,14 @@ class MealsHorizontalList extends StatelessWidget {
   final List<Meal> categoryMeals;
   final double whiteSpace;
   final Function removeItem;
+  final bool Function(String mealID) isMealBookmarked;
 
   const MealsHorizontalList({
     required this.categoryMeals,
     required this.whiteSpace,
     required this.removeItem,
-    Key? key,
-  }) : super(key: key);
+    required this.isMealBookmarked,
+    Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class MealsHorizontalList extends StatelessWidget {
             whiteSpace: whiteSpace,
             categoryMeal: categoryMeals[index],
             removeItem: removeItem,
+            isMealBookmarked: isMealBookmarked,
           );
         },
       ),

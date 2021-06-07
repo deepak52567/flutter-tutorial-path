@@ -9,8 +9,9 @@ class CategoryRecipesScreen extends StatefulWidget {
   static const routeName = '/category-recipes';
 
   final List<Meal> availableMeals;
+  final bool Function(String mealID) isMealBookmarked;
 
-  CategoryRecipesScreen(this.availableMeals);
+  CategoryRecipesScreen(this.availableMeals, this.isMealBookmarked);
 
   @override
   _CategoryRecipesScreenState createState() => _CategoryRecipesScreenState();
@@ -70,6 +71,7 @@ class _CategoryRecipesScreenState extends State<CategoryRecipesScreen> {
               categoryMeals: categoryMeals,
               whiteSpace: 20.0,
               removeItem: _removeMeal,
+              isMealBookmarked: widget.isMealBookmarked,
             ),
           ],
         ),
