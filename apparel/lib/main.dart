@@ -13,6 +13,8 @@ class MyApp extends StatelessWidget {
       title: 'Apparel App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        accentColor: Colors.deepOrangeAccent,
+        fontFamily: 'Lato',
       ),
       home: ProductsOverviewScreen(),
     );
