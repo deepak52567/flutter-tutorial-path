@@ -1,4 +1,7 @@
-class Product {
+import 'package:flutter/material.dart';
+
+// Changing product model into changeNotifier class to tell widgets about any change, i.e isFavorite
+class Product with ChangeNotifier {
   final String id;
   final String title;
   final String description;
@@ -14,4 +17,9 @@ class Product {
     required this.imageUrl,
     this.isFavorite = false,
   });
+
+  void toggleFavoriteStatus() {
+    isFavorite = !isFavorite;
+    notifyListeners();
+  }
 }
