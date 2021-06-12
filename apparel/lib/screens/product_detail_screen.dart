@@ -14,12 +14,22 @@ class ProductDetailScreen extends StatelessWidget {
     final productId = ModalRoute.of(context)?.settings.arguments as String;
     // If only want data one time
     // If we don't wanna rebuild widget on data change, we can change listen to false. Default is true
-    final loadedProduct = Provider.of<Products>(context, listen: false).findById(productId);
+    final loadedProduct =
+        Provider.of<Products>(context, listen: false).findById(productId);
     // final loadedProduct = Provider.of<Products>(context).findById(productId);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(loadedProduct.title),
+        actions: [
+          IconButton(
+            onPressed: null,
+            icon: Icon(loadedProduct.isFavorite
+                ? Icons.favorite
+                : Icons.favorite_outline, ),
+            color: Theme.of(context).accentColor,
+          )
+        ],
       ),
     );
   }

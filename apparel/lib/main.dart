@@ -15,8 +15,11 @@ class MyApp extends StatelessWidget {
     // Allows us to register a class which can be listen by child widget will rebuild.
     // Only child.
     //Listening widget will rebuild. Like any child widget
+    // user value() method of ChangeNotifierProvider if not interested in context
+    // When using create a new object based on a class. We should use create method.
+    // Use value approach if using it in existing objects. Like list or grid items.
     return ChangeNotifierProvider(
-      create: (context) => Products(),
+      create: (_) => Products(),
       child: MaterialApp(
         title: 'Apparel App',
         theme: ThemeData(
