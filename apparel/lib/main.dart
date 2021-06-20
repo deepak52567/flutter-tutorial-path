@@ -1,4 +1,6 @@
+import 'package:apparel/providers/cart.dart';
 import 'package:apparel/providers/products_provider.dart';
+import 'package:apparel/screens/cart_screen.dart';
 import 'package:apparel/screens/product_detail_screen.dart';
 import 'package:apparel/screens/products_overview_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +20,16 @@ class MyApp extends StatelessWidget {
     // user value() method of ChangeNotifierProvider if not interested in context
     // When using create a new object based on a class. We should use create method.
     // Use value approach if using it in existing objects. Like list or grid items.
-    return ChangeNotifierProvider(
-      create: (_) => Products(),
+    // To user multiple providers, use MultiProvider widget and providers in the array
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+          value: Products(),
+        ),
+        ChangeNotifierProvider.value(
+          value: Cart(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Apparel App',
         theme: ThemeData(
@@ -28,7 +38,10 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Lato',
         ),
         home: ProductsOverviewScreen(),
-        routes: {ProductDetailScreen.routeName: (ctx) => ProductDetailScreen()},
+        routes: {
+          ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+          CartScreen.routeName: (ctx) => CartScreen(),
+        },
       ),
     );
   }

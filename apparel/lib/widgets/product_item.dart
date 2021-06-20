@@ -1,3 +1,4 @@
+import 'package:apparel/providers/cart.dart';
 import 'package:apparel/providers/product.dart';
 import 'package:apparel/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class ProductItem extends StatelessWidget {
     // Provider then listen to changes using Consumer and prevent full Widget re-rendering
     // And only re-renders the icon button
     final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
     // We can also use Consumer Widget to update specific parts of Widget instead of rerendring the whole widget
     // when using Provider.of
     return ClipRRect(
@@ -51,7 +53,9 @@ class ProductItem extends StatelessWidget {
           ),
           trailing: IconButton(
             icon: Icon(Icons.shopping_cart),
-            onPressed: () {},
+            onPressed: () {
+              cart.addItem(product.id, product.price, product.title);
+            },
             color: Theme.of(context).accentColor,
           ),
         ),

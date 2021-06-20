@@ -1,5 +1,9 @@
+import 'package:apparel/providers/cart.dart';
+import 'package:apparel/screens/cart_screen.dart';
+import 'package:apparel/widgets/badge.dart';
 import 'package:apparel/widgets/products_grid.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 enum FilterOptions {
   Favorites,
@@ -22,6 +26,19 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       appBar: AppBar(
         title: const Text('Apparel Catalogue'),
         actions: <Widget>[
+          Consumer<Cart>(
+            // Provided child Icon to prevent unnecessary rebuild of icon
+            builder: (_, cartData, ch) => Badge(
+              child: ch!,
+              value: cartData.itemCount.toString(),
+            ),
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartScreen.routeName);
+              },
+            ),
+          ),
           PopupMenuButton(
             onSelected: (FilterOptions value) {
               setState(() {
@@ -32,7 +49,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 }
               });
             },
-            icon: Icon(Icons.more_vert),
+            icon: Icon(Icons.filter_alt),
             itemBuilder: (_) => [
               PopupMenuItem(
                 child: Text('Only Favorites'),
@@ -43,7 +60,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 value: FilterOptions.All,
               ),
             ],
-          )
+          ),
         ],
       ),
       body: ProductsGrid(_showOnlyFavrtData),

@@ -15,10 +15,14 @@ class CartItem {
 }
 
 class Cart with ChangeNotifier {
-  Map<String, CartItem> _items;
+  Map<String, CartItem> _items = {};
 
   Map<String, CartItem> get items {
     return {..._items};
+  }
+
+  int get itemCount {
+    return _items.length;
   }
 
   void addItem(
@@ -26,6 +30,7 @@ class Cart with ChangeNotifier {
     double price,
     String title,
   ) {
+    // Checking if item already exists and increase cart count
     if (_items.containsKey(productID)) {
       _items.update(
           productID,
@@ -36,6 +41,8 @@ class Cart with ChangeNotifier {
                 quantities: existingItem.quantities + 1,
               ));
     } else {
+      // Add a new entry to _items with an new id
+      // putIfAbsent creates a value but also takes a function
       _items.putIfAbsent(
           productID,
           () => CartItem(
@@ -44,5 +51,14 @@ class Cart with ChangeNotifier {
               quantities: 1,
               price: price));
     }
+    notifyListeners();
+  }
+
+  double get totalAmount {
+    var total = 0.0;
+    _items.forEach((key, cartItem) {
+      total += cartItem.price * cartItem.quantities;
+    });
+    return total;
   }
 }
