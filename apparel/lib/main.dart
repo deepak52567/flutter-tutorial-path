@@ -1,5 +1,6 @@
 import 'package:apparel/providers/cart.dart';
-import 'package:apparel/providers/products_provider.dart';
+import 'package:apparel/providers/orders.dart';
+import 'package:apparel/providers/products.dart';
 import 'package:apparel/screens/cart_screen.dart';
 import 'package:apparel/screens/product_detail_screen.dart';
 import 'package:apparel/screens/products_overview_screen.dart';
@@ -23,12 +24,16 @@ class MyApp extends StatelessWidget {
     // To user multiple providers, use MultiProvider widget and providers in the array
     return MultiProvider(
       providers: [
+        // Not provider, lstners cause the re-renders
         ChangeNotifierProvider.value(
           value: Products(),
         ),
         ChangeNotifierProvider.value(
           value: Cart(),
         ),
+        ChangeNotifierProvider.value(
+          value: Orders(),
+        )
       ],
       child: MaterialApp(
         title: 'Apparel App',

@@ -1,4 +1,4 @@
-import 'package:apparel/providers/products_provider.dart';
+import 'package:apparel/providers/products.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,12 +24,48 @@ class ProductDetailScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: null,
-            icon: Icon(loadedProduct.isFavorite
-                ? Icons.favorite
-                : Icons.favorite_outline, ),
+            icon: Icon(
+              loadedProduct.isFavorite
+                  ? Icons.favorite
+                  : Icons.favorite_outline,
+            ),
             color: Theme.of(context).accentColor,
           )
         ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 300,
+              child: Image.network(
+                loadedProduct.imageUrl,
+              ),
+              width: double.infinity,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              '\$${loadedProduct.price}',
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(10),
+              child: Text(
+                loadedProduct.description,
+                textAlign: TextAlign.center,
+                softWrap: true,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
