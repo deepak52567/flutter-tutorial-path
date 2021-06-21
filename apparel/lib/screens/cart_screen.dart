@@ -1,4 +1,5 @@
 import 'package:apparel/providers/cart.dart' show Cart;
+import 'package:apparel/providers/orders.dart';
 
 // can use ci as prefix
 import 'package:apparel/widgets/cart_item.dart';
@@ -40,7 +41,13 @@ class CartScreen extends StatelessWidget {
                     ),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
-                  TextButton(onPressed: () {}, child: Text('Order Now')),
+                  TextButton(
+                      onPressed: () {
+                        Provider.of<Orders>(context, listen: false).addOrder(
+                            cart.items.values.toList(), cart.totalAmount);
+                        cart.clearItems();
+                      },
+                      child: Text('Order Now')),
                 ],
               ),
             ),
