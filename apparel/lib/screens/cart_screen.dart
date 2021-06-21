@@ -1,4 +1,5 @@
 import 'package:apparel/providers/cart.dart' show Cart;
+
 // can use ci as prefix
 import 'package:apparel/widgets/cart_item.dart';
 import 'package:flutter/material.dart';
@@ -40,20 +41,6 @@ class CartScreen extends StatelessWidget {
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
                   TextButton(onPressed: () {}, child: Text('Order Now')),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                      child: ListView.builder(
-                    itemCount: cart.items.length,
-                    // can user ci.CartItem with prefix as well
-                    itemBuilder: (ctx, index) => CartItem(
-                      cart.items.values.toList()[index].title,
-                      cart.items.values.toList()[index].price,
-                      cart.items.values.toList()[index].id,
-                      cart.items.values.toList()[index].quantities
-                    ),
-                  ))
                 ],
               ),
             ),
@@ -63,12 +50,15 @@ class CartScreen extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: cart.itemCount,
-              itemBuilder: (ctx, i) {
-                return Text('');
-              },
+              itemCount: cart.items.length,
+              // can user ci.CartItem with prefix as well
+              itemBuilder: (ctx, index) => CartItem(
+                  cart.items.values.toList()[index].title,
+                  cart.items.values.toList()[index].price,
+                  cart.items.values.toList()[index].id,
+                  cart.items.values.toList()[index].quantities),
             ),
-          ),
+          )
         ],
       ),
     );
