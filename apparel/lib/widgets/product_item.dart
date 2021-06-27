@@ -54,7 +54,7 @@ class ProductItem extends StatelessWidget {
           trailing: IconButton(
             icon: Icon(Icons.shopping_cart),
             onPressed: () {
-              cart.addItem(product.id!, product.price, product.title);
+              cart.addItem(product.id, product.price, product.title);
               // Using scaffold, we can reach nearest scaffold and call few method related to it
               // Scaffold.of(context).openDrawer();
               // Remove exiting snackbar
@@ -67,7 +67,7 @@ class ProductItem extends StatelessWidget {
                     label: 'Undo',
                     onPressed: () {
                       //Remove single item for cart
-                      cart.removeSingleItem(product.id!);
+                      cart.removeSingleItem(product.id);
                     },
                   ),
                 ),

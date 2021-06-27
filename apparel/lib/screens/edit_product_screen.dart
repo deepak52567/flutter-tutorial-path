@@ -19,7 +19,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _imageUrlController = TextEditingController();
   final _form = GlobalKey<FormState>();
   var _editedProduct = Product(
-    id: null,
+    id: '',
     title: '',
     description: '',
     price: 0,
@@ -51,6 +51,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
   void _saveForm() {
     // calling save method, each formfield in form widget will be checked for its validations and save
     _form.currentState!.save();
+    print(_editedProduct.title);
+    print(_editedProduct.description);
+    print(_editedProduct.price);
+    print(_editedProduct.imageUrl);
   }
 
   // onEditingComplete: () {
@@ -62,6 +66,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Product'),
+        actions: <Widget>[
+          IconButton(onPressed: () => _saveForm(), icon: Icon(Icons.save))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
