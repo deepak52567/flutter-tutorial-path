@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:apparel/providers/product.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 // Always add provider class to highest possible point of interested widgets
 // with mixin ChangeNotifier
@@ -57,6 +60,17 @@ class Products with ChangeNotifier {
   }
 
   void addProduct(Product product) {
+
+    final url = Uri.parse('https://apparel-flutter-default-rtdb.firebaseio.com/products.json');
+    http.post(url, body: json.encode({
+      'title': product.title,
+      'description': product.description,
+      'price': product.price,
+      'isFavorite': product.isFavorite,
+      'imageUrl': product.imageUrl
+    }), headers: {
+      'Content-Type': 'application/json'
+    });
     final newProduct = Product(
       id: DateTime.now().toString(),
       title: product.title,
