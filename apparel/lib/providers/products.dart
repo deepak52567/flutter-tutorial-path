@@ -60,6 +60,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) {
+    // In flutter, after Futures of catchError() will be executed after an error
+
     final url = Uri.parse(
         'https://apparel-flutter-default-rtdb.firebaseio.com/products.json');
     return http.post(url,
@@ -82,6 +84,8 @@ class Products with ChangeNotifier {
       // To add it on top of the list
       // _items.insert(0, newProduct);
       notifyListeners();
+    }).catchError((err) {
+      throw err;
     });
   }
 
