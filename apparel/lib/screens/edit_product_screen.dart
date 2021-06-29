@@ -34,6 +34,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     'price': '',
     'imageUrl': ''
   };
+  var _isLoading = false;
 
   @override
   void dispose() {
@@ -56,8 +57,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
     if (_isInit) {
       final args = ModalRoute.of(context)!.settings.arguments;
       if (args != null) {
-        _editedProduct =
-            Provider.of<Products>(context, listen: false).findById(args.toString());
+        _editedProduct = Provider.of<Products>(context, listen: false)
+            .findById(args.toString());
         _initValues = {
           'title': _editedProduct.title,
           'description': _editedProduct.description,
@@ -93,13 +94,26 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
     // calling save method, each formfield in form widget will be checked for its validations and save
     _form.currentState!.save();
+    setState(() {
+      _isLoading = true;
+    });
     if (_editedProduct.id != null && _editedProduct.id.isNotEmpty) {
       Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.of(context).pop();
     } else {
-      Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+      Provider.of<Products>(context, listen: false)
+          .addProduct(_editedProduct)
+          .then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+        Navigator.of(context).pop();
+      });
     }
-    Navigator.of(context).pop();
   }
 
   // onEditingComplete: () {
@@ -117,7 +131,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: Form(
+        child: _isLoading ? Center(
+          child: CircularProgressIndicator(),
+        ) : Form(
           key: _form,
           // Listview is fine on portrait only apps as listview remove and adds widgets dynamically
           // And might get lost while scrolling or rotating
