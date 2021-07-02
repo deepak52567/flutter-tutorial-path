@@ -59,20 +59,21 @@ class Products with ChangeNotifier {
     return _items.where((prdt) => prdt.isFavorite).toList();
   }
 
-  Future<void> addProduct(Product product) {
+  Future<void> addProduct(Product product) async {
     // In flutter, after Futures of catchError() will be executed after an error
 
     final url = Uri.parse(
         'https://apparel-flutter-default-rtdb.firebaseio.com/products.json');
-    return http.post(url,
-        body: json.encode({
-          'title': product.title,
-          'description': product.description,
-          'price': product.price,
-          'isFavorite': product.isFavorite,
-          'imageUrl': product.imageUrl
-        }),
-        headers: {'Content-Type': 'application/json'}).then((response) {
+    try {
+      final response = await http.post(url,
+          body: json.encode({
+            'title': product.title,
+            'description': product.description,
+            'price': product.price,
+            'isFavorite': product.isFavorite,
+            'imageUrl': product.imageUrl
+          }),
+          headers: {'Content-Type': 'application/json'});
       final newProduct = Product(
         id: json.decode(response.body)['name'],
         title: product.title,
@@ -84,9 +85,10 @@ class Products with ChangeNotifier {
       // To add it on top of the list
       // _items.insert(0, newProduct);
       notifyListeners();
-    }).catchError((err) {
+    } catch (err) {
+      print(err);
       throw err;
-    });
+    }
   }
 
   void updateProduct(String id, Product newProduct) {

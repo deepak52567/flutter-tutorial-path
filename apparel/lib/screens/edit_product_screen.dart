@@ -87,7 +87,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
   }
 
-  void _saveForm() {
+  Future<void> _saveForm() async {
     final isValid = _form.currentState!.validate();
     if (!isValid) {
       return;
@@ -105,11 +105,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
       });
       Navigator.of(context).pop();
     } else {
-      Provider.of<Products>(context, listen: false)
-          .addProduct(_editedProduct)
-          .catchError((err) {
-        // we return an future from alertdialog box with its context and Type
-        return showDialog<Null>(
+      try {
+        await Provider.of<Products>(context, listen: false)
+            .addProduct(_editedProduct);
+      } catch (err) {
+        await showDialog<Null>(
           context: context,
           barrierDismissible: false,
           builder: (BuildContext ctx) => AlertDialog(
@@ -122,18 +122,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   // We use builder context due to close alert dialog
                   Navigator.of(ctx).pop();
                 },
-              )
+              ),
             ],
           ),
         );
-        // This gets executed even after catchError because anything after error gets executed.
-      }).then((_) {
-        setState(() {
-          _isLoading = false;
-        });
+        // It runs on success and failure of op
+      } finally {
+        setState(() => _isLoading = false);
         // We use Provider context to navigate to the previous page
         Navigator.of(context).pop();
-      });
+      }
     }
   }
 
