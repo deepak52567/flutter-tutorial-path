@@ -1,4 +1,5 @@
 import 'package:apparel/providers/cart.dart';
+import 'package:apparel/providers/products.dart';
 import 'package:apparel/screens/cart_screen.dart';
 import 'package:apparel/widgets/app_drawer.dart';
 import 'package:apparel/widgets/badge.dart';
@@ -18,6 +19,33 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   bool _showOnlyFavrtData = false;
+  var _isInit = true;
+  var _isLoading = false;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() => _isLoading = true);
+      Provider.of<Products>(context)
+          .fetchAndSetProduct()
+          .then((_) => setState(() => _isLoading = false));
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    // In init state can't use context here
+    //Although we can use provider using listen to false as a workaround
+    // Provider.of<Products>(context).fetchAndSetProduct(); // WON'T WORK
+
+    // This can also be used as HACK because we are using delayed as a workaround
+    // Future.delayed(Duration.zero).then((_) => {
+    //   Provider.of<Products>(context).fetchAndSetProduct()
+    // });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +93,11 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         ],
       ),
       drawer: AppDrawer(),
-      body: ProductsGrid(_showOnlyFavrtData),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ProductsGrid(_showOnlyFavrtData),
     );
   }
 }
