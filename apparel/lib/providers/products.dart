@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:apparel/providers/product.dart';
 import 'package:flutter/material.dart';
@@ -80,19 +81,44 @@ class Products with ChangeNotifier {
     }
   }
 
-  void updateProduct(String id, Product newProduct) {
+  Future<void> updateProduct(String id, Product newProduct) async {
     final prdtIndex = _items.indexWhere((prdt) => prdt.id == id);
     if (prdtIndex >= 0) {
-      _items[prdtIndex] = newProduct;
-      notifyListeners();
+      try {
+        final url = Uri.parse(
+            'https://apparel-flutter-default-rtdb.firebaseio.com/products/$id.json');
+        await http.patch(url,
+            body: json.encode({
+              'title': newProduct.title,
+              'description': newProduct.description,
+              'price': newProduct.price,
+              'imageUrl': newProduct.imageUrl
+            }));
+        _items[prdtIndex] = newProduct;
+        notifyListeners();
+      } catch (err) {
+        print(err);
+        throw err;
+      }
     } else {
       print('... not found');
     }
   }
 
   void deleteProduct(String id) {
-    _items.removeWhere((prdt) => prdt.id == id);
+    final url = Uri.parse(
+        'https://apparel-flutter-default-rtdb.firebaseio.com/products/$id.json');
+    // We are only removing item from the list but not from memory as we are storing here in an variable
+    int existingProductIndex = _items.indexWhere((prdt) => prdt.id == id);
+    Product? existingProduct = _items[existingProductIndex];
+    _items.removeAt(existingProductIndex);
     notifyListeners();
+    http.delete(url).then((_) {
+      existingProduct = null;
+    }).catchError((_) {
+      _items.insert(existingProductIndex, existingProduct!);
+      notifyListeners();
+    });
   }
 
   Product findById(String id) {
