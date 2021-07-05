@@ -48,6 +48,7 @@ class ProductItem extends StatelessWidget {
                   prdt.isFavorite ? Icons.favorite : Icons.favorite_outline),
               onPressed: () => prdt.toggleFavoriteStatus(),
               color: Theme.of(context).accentColor,
+
             ),
             // child: Text('Never changes'),
           ),

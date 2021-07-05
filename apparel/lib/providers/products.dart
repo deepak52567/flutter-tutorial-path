@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'dart:math';
 
+import 'package:apparel/models/http_exception.dart';
 import 'package:apparel/providers/product.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -105,20 +105,26 @@ class Products with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
+  Future<void> deleteProduct(String id) async {
     final url = Uri.parse(
         'https://apparel-flutter-default-rtdb.firebaseio.com/products/$id.json');
     // We are only removing item from the list but not from memory as we are storing here in an variable
     int existingProductIndex = _items.indexWhere((prdt) => prdt.id == id);
+    // Using index to store a object to from the item list itself
     Product? existingProduct = _items[existingProductIndex];
+
+    // Optimistic response
     _items.removeAt(existingProductIndex);
     notifyListeners();
-    http.delete(url).then((_) {
-      existingProduct = null;
-    }).catchError((_) {
-      _items.insert(existingProductIndex, existingProduct!);
+    final response = await http.delete(url);
+
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProduct);
       notifyListeners();
-    });
+      throw HttpException('Could not delete product.');
+    }
+
+    existingProduct = null;
   }
 
   Product findById(String id) {
