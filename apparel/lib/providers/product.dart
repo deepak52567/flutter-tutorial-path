@@ -30,7 +30,7 @@ class Product with ChangeNotifier {
     final existingStatus = isFavorite;
     _setFavValue(!isFavorite);
     final url = Uri.parse(
-        'https://apparel-flutter-default-rtdb.firebaseio.com/products/$id');
+        'https://apparel-flutter-default-rtdb.firebaseio.com/products/$id.json');
     try {
       final response = await http.patch(url,
           body: json.encode({
