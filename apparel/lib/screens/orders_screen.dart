@@ -13,11 +13,10 @@ class OrdersScreen extends StatefulWidget {
 
 class _OrdersScreenState extends State<OrdersScreen> {
   // Here we could have also used a stateless widget
-  // But if some dialog opens or anything that essentially
-  // rebuilds the widget then it will recall orders future
-  // Unnecessary. To avoid it, we are using and assigning this to
-  // an outer method in a stateful widget. Although stateless widget
-  // is recommended
+  // But if some dialog opens or anything that essentially rebuilds the widget
+  // then it will recall orders future Unnecessary. To avoid it, we are using
+  // and assigning this to an outer method in a stateful widget. Although
+  // stateless widget is recommended
   late Future _ordersFuture;
 
   Future _obtainOrderFuture() {
