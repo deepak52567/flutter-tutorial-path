@@ -28,7 +28,13 @@ class Products with ChangeNotifier {
         'https://apparel-flutter-default-rtdb.firebaseio.com/products.json');
     try {
       final response = await http.get(url);
-      final extractData = jsonDecode(response.body) as Map<String, dynamic>;
+      final encodedBody = json.decode(response.body);
+
+      if (encodedBody == null) {
+        return;
+      }
+
+      final extractData = encodedBody as Map<String, dynamic>;
       final List<Product> loadedProducts = [];
       extractData.forEach(
         (prdtID, prdtData) => loadedProducts.add(

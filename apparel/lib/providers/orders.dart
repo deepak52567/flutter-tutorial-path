@@ -33,12 +33,14 @@ class Orders with ChangeNotifier {
       body: json.encode({
         'amount': total,
         'dateTime': dateTime.toIso8601String(),
-        'products': cartProducts.map((prdt) => {
-              'id': prdt.id,
-              'title': prdt.title,
-              'quantities': prdt.quantities,
-              'price': prdt.price,
-            }).toList()
+        'products': cartProducts
+            .map((prdt) => {
+                  'id': prdt.id,
+                  'title': prdt.title,
+                  'quantities': prdt.quantities,
+                  'price': prdt.price,
+                })
+            .toList()
       }),
     );
     _orders.insert(
@@ -50,6 +52,44 @@ class Orders with ChangeNotifier {
         dateTime: dateTime,
       ),
     );
+    notifyListeners();
+  }
+
+  Future<void> fetchAndSetOrders() async {
+    final url = Uri.parse(
+        'https://apparel-flutter-default-rtdb.firebaseio.com/orders.json');
+    final response = await http.get(url);
+    final encodedBody = json.decode(response.body);
+
+    if (encodedBody == null) {
+      return;
+    }
+
+    final List<OrderItem> loadedOrders = [];
+    // Converting it to a map which has its id as key and other values
+    final extractedData = encodedBody as Map<String, dynamic>;
+
+    extractedData.forEach((orderID, orderData) {
+      loadedOrders.add(
+        OrderItem(
+          id: orderID,
+          amount: orderData['amount'],
+          // Changing order items into dynamic list to use it as product map
+          products: (orderData['products'] as List<dynamic>)
+              .map((item) => CartItem(
+                    id: item['id'],
+                    title: item['title'],
+                    price: item['price'],
+                    quantities: item['quantities'],
+                  ))
+              .toList(),
+          dateTime: DateTime.parse(
+            orderData['dateTime'],
+          ),
+        ),
+      );
+    });
+    _orders = loadedOrders.reversed.toList();
     notifyListeners();
   }
 }
