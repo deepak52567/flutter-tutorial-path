@@ -1,11 +1,12 @@
+import 'package:apparel/providers/auth.dart';
 import 'package:apparel/providers/cart.dart';
 import 'package:apparel/providers/orders.dart';
 import 'package:apparel/providers/products.dart';
+import 'package:apparel/screens/auth_screen.dart';
 import 'package:apparel/screens/cart_screen.dart';
 import 'package:apparel/screens/edit_product_screen.dart';
 import 'package:apparel/screens/orders_screen.dart';
 import 'package:apparel/screens/product_detail_screen.dart';
-import 'package:apparel/screens/products_overview_screen.dart';
 import 'package:apparel/screens/user_products_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,9 @@ class MyApp extends StatelessWidget {
     // To user multiple providers, use MultiProvider widget and providers in the array
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider.value(
+          value: Auth(),
+        ),
         // Not provider, lstners cause the re-renders
         ChangeNotifierProvider.value(
           value: Products(),
@@ -45,7 +49,7 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.deepOrangeAccent,
           fontFamily: 'Lato',
         ),
-        home: ProductsOverviewScreen(),
+        home: AuthScreen(),
         routes: {
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),
