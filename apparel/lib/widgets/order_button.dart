@@ -1,4 +1,3 @@
-
 import 'package:apparel/providers/cart.dart';
 import 'package:apparel/providers/orders.dart';
 import 'package:flutter/material.dart';
@@ -28,14 +27,17 @@ class _OrderButtonState extends State<OrderButton> {
               setState(() {
                 _isLoading = true;
               });
-              await Provider.of<Orders>(context, listen: false).addOrder(
-                widget.cart.items.values.toList(),
-                widget.cart.totalAmount,
-              );
-              setState(() {
-                _isLoading = false;
-              });
-              widget.cart.clearItems();
+              try {
+                await Provider.of<Orders>(context, listen: false).addOrder(
+                  widget.cart.items.values.toList(),
+                  widget.cart.totalAmount,
+                );
+                widget.cart.clearItems();
+              } finally {
+                setState(() {
+                  _isLoading = false;
+                });
+              }
             },
       child: _isLoading ? CircularProgressIndicator() : const Text('Order Now'),
     );

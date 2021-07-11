@@ -9,6 +9,10 @@ import 'package:http/http.dart' as http;
 // with mixin ChangeNotifier
 class Products with ChangeNotifier {
   List<Product> _items = [];
+  final String authToken;
+  final String userId;
+
+  Products(this.userId, this.authToken, this._items);
 
   // bool _showFavoritesOnly = false;
 
@@ -24,28 +28,35 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProduct() async {
-    final url = Uri.parse(
-        'https://apparel-flutter-default-rtdb.firebaseio.com/products.json');
+    var url = Uri.parse(
+        'https://apparel-flutter-default-rtdb.firebaseio.com/products.json?auth=$authToken');
     try {
       final response = await http.get(url);
       final encodedBody = json.decode(response.body);
+      url = Uri.parse(
+          'https://apparel-flutter-default-rtdb.firebaseio.com/userFavorites/$userId.json?auth=$authToken');
+      final favResponse = await http.get(url);
+      final encodedFavBody = json.decode(favResponse.body);
 
       if (encodedBody == null) {
         return;
       }
+
+      final extractFavData = encodedFavBody as Map<String, dynamic>?;
 
       final extractData = encodedBody as Map<String, dynamic>;
       final List<Product> loadedProducts = [];
       extractData.forEach(
         (prdtID, prdtData) => loadedProducts.add(
           Product(
-            id: prdtID,
-            title: prdtData['title'],
-            description: prdtData['description'],
-            price: prdtData['price'],
-            imageUrl: prdtData['imageUrl'],
-            isFavorite: prdtData['isFavorite'],
-          ),
+              id: prdtID,
+              title: prdtData['title'],
+              description: prdtData['description'],
+              price: prdtData['price'],
+              imageUrl: prdtData['imageUrl'],
+              isFavorite: extractFavData == null
+                  ? false
+                  : extractFavData[prdtID] ?? false),
         ),
       );
       _items = loadedProducts;
@@ -59,14 +70,13 @@ class Products with ChangeNotifier {
     // In flutter, after Futures of catchError() will be executed after an error
 
     final url = Uri.parse(
-        'https://apparel-flutter-default-rtdb.firebaseio.com/products.json');
+        'https://apparel-flutter-default-rtdb.firebaseio.com/products.json?auth=$authToken');
     try {
       final response = await http.post(url,
           body: json.encode({
             'title': product.title,
             'description': product.description,
             'price': product.price,
-            'isFavorite': product.isFavorite,
             'imageUrl': product.imageUrl
           }),
           headers: {'Content-Type': 'application/json'});
@@ -92,7 +102,7 @@ class Products with ChangeNotifier {
     if (prdtIndex >= 0) {
       try {
         final url = Uri.parse(
-            'https://apparel-flutter-default-rtdb.firebaseio.com/products/$id.json');
+            'https://apparel-flutter-default-rtdb.firebaseio.com/products/$id.json?auth=$authToken');
         await http.patch(url,
             body: json.encode({
               'title': newProduct.title,
@@ -113,7 +123,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String id) async {
     final url = Uri.parse(
-        'https://apparel-flutter-default-rtdb.firebaseio.com/products/$id.json');
+        'https://apparel-flutter-default-rtdb.firebaseio.com/products/$id.json?auth=$authToken');
     // We are only removing item from the list but not from memory as we are storing here in an variable
     int existingProductIndex = _items.indexWhere((prdt) => prdt.id == id);
     // Using index to store a object to from the item list itself

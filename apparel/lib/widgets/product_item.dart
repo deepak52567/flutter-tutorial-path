@@ -1,3 +1,4 @@
+import 'package:apparel/providers/auth.dart';
 import 'package:apparel/providers/cart.dart';
 import 'package:apparel/providers/product.dart';
 import 'package:apparel/screens/product_detail_screen.dart';
@@ -13,6 +14,7 @@ class ProductItem extends StatelessWidget {
     // And only re-renders the icon button
     final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen: false);
     // We can also use Consumer Widget to update specific parts of Widget instead of rerendring the whole widget
     // when using Provider.of
     return ClipRRect(
@@ -46,9 +48,9 @@ class ProductItem extends StatelessWidget {
               // icon: child!,
               icon: Icon(
                   prdt.isFavorite ? Icons.favorite : Icons.favorite_outline),
-              onPressed: () => prdt.toggleFavoriteStatus(),
+              onPressed: () =>
+                  prdt.toggleFavoriteStatus(auth.token!, auth.userId!),
               color: Theme.of(context).accentColor,
-
             ),
             // child: Text('Never changes'),
           ),

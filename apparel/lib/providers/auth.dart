@@ -5,9 +5,29 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Auth with ChangeNotifier {
-  late String _token;
-  late DateTime _expiryDate;
-  late String _userId;
+  String? _token;
+  DateTime? _expiryDate;
+  String? _userId;
+
+  bool get isAuth {
+    return token != null;
+  }
+
+  String? get token {
+    if (_expiryDate != null &&
+        _expiryDate!.isAfter(DateTime.now()) &&
+        _token != null) {
+      return _token;
+    }
+    return null;
+  }
+
+  String? get userId {
+    if (_userId != null) {
+      return _userId;
+    }
+    return null;
+  }
 
   static const LOGIN_URL_SEGMENT = 'signInWithPassword';
   static const SINGUP_URL_SEGMENT = 'signUp';
@@ -31,6 +51,14 @@ class Auth with ChangeNotifier {
       if (responseData['error'] != null) {
         throw HttpException(responseData['error']['message']);
       }
+      _token = responseData['idToken'];
+      _userId = responseData['localId'];
+      _expiryDate = DateTime.now().add(
+        Duration(
+          seconds: int.parse(responseData['expiresIn']),
+        ),
+      );
+      notifyListeners();
     } catch (err) {
       throw err;
     }
