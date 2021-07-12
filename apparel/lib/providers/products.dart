@@ -50,8 +50,6 @@ class Products with ChangeNotifier {
 
       final extractData = encodedBody as Map<String, dynamic>;
 
-      print(extractData);
-      print(extractFavData);
       final List<Product> loadedProducts = [];
       extractData.forEach(
         (prdtID, prdtData) => loadedProducts.add(
