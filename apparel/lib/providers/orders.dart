@@ -20,8 +20,9 @@ class OrderItem {
 class Orders with ChangeNotifier {
   List<OrderItem> _orders = [];
   final String authToken;
+  final String userId;
 
-  Orders(this.authToken, this._orders);
+  Orders(this.authToken, this.userId, this._orders);
 
   List<OrderItem> get orders {
     return [..._orders];
@@ -29,7 +30,7 @@ class Orders with ChangeNotifier {
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
     final url = Uri.parse(
-        'https://apparel-flutter-default-rtdb.firebaseio.com/orders.json?auth=$authToken');
+        'https://apparel-flutter-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken');
     final dateTime = DateTime.now();
     final response = await http.post(
       url,
@@ -60,7 +61,7 @@ class Orders with ChangeNotifier {
 
   Future<void> fetchAndSetOrders() async {
     final url = Uri.parse(
-        'https://apparel-flutter-default-rtdb.firebaseio.com/orders.json?auth=$authToken');
+        'https://apparel-flutter-default-rtdb.firebaseio.com/orders$userId.json?auth=$authToken');
     final response = await http.get(url);
     final encodedBody = json.decode(response.body);
 
