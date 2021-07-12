@@ -27,9 +27,13 @@ class Products with ChangeNotifier {
     return _items.where((prdt) => prdt.isFavorite).toList();
   }
 
-  Future<void> fetchAndSetProduct() async {
+  // Positional Arguments with an default value
+  Future<void> fetchAndSetProduct([bool filterByUser = false]) async {
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
+    // Filtering data based on userId
     var url = Uri.parse(
-        'https://apparel-flutter-default-rtdb.firebaseio.com/products.json?auth=$authToken');
+        'https://apparel-flutter-default-rtdb.firebaseio.com/products.json?auth=$authToken&$filterString');
     try {
       final response = await http.get(url);
       final encodedBody = json.decode(response.body);
@@ -45,6 +49,9 @@ class Products with ChangeNotifier {
       final extractFavData = encodedFavBody as Map<String, dynamic>?;
 
       final extractData = encodedBody as Map<String, dynamic>;
+
+      print(extractData);
+      print(extractFavData);
       final List<Product> loadedProducts = [];
       extractData.forEach(
         (prdtID, prdtData) => loadedProducts.add(
@@ -68,7 +75,6 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     // In flutter, after Futures of catchError() will be executed after an error
-
     final url = Uri.parse(
         'https://apparel-flutter-default-rtdb.firebaseio.com/products.json?auth=$authToken');
     try {
@@ -77,7 +83,8 @@ class Products with ChangeNotifier {
             'title': product.title,
             'description': product.description,
             'price': product.price,
-            'imageUrl': product.imageUrl
+            'imageUrl': product.imageUrl,
+            'creatorId': userId,
           }),
           headers: {'Content-Type': 'application/json'});
       final newProduct = Product(
@@ -108,7 +115,7 @@ class Products with ChangeNotifier {
               'title': newProduct.title,
               'description': newProduct.description,
               'price': newProduct.price,
-              'imageUrl': newProduct.imageUrl
+              'imageUrl': newProduct.imageUrl,
             }));
         _items[prdtIndex] = newProduct;
         notifyListeners();
