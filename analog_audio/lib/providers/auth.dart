@@ -1,16 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:analog_audio/models/enums.dart';
 import 'package:analog_audio/models/http_exception.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth with ChangeNotifier {
-  AuthMode _authMode = AuthMode.Signup;
-
   String? _token;
   DateTime? _expiryDate;
   String? _userId;
@@ -20,15 +16,6 @@ class Auth with ChangeNotifier {
 
   static const LOGIN_URL_SEGMENT = 'signInWithPassword';
   static const SINGUP_URL_SEGMENT = 'signUp';
-
-  AuthMode get authMode {
-    return _authMode;
-  }
-
-  set changeAuthState(AuthMode newMode) {
-    _authMode = newMode;
-    notifyListeners();
-  }
 
   bool get isAuth {
     return _token != null;

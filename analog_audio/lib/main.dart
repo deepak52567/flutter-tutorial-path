@@ -1,5 +1,6 @@
 import 'package:analog_audio/providers/auth.dart';
 import 'package:analog_audio/screens/auth_screen.dart';
+import 'package:analog_audio/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,23 +26,33 @@ class MyApp extends StatelessWidget {
           value: Auth(),
         ),
       ],
-      child: MaterialApp(
-        title: 'Analog Audio',
-        theme: ThemeData(
-            primarySwatch: Colors.blue,
-            elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0)),
-                padding: EdgeInsets.symmetric(vertical: 15),
+      child: Consumer<Auth>(
+        builder: (context, authData, _) => MaterialApp(
+          title: 'Analog Audio',
+          theme: ThemeData(
+              primarySwatch: Colors.blue,
+              elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  primary: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0)),
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                ),
               ),
-            ),
-            inputDecorationTheme: InputDecorationTheme(
-              filled: true,
-              fillColor: Theme.of(context).primaryColor.withOpacity(0.08),
-            )),
-        home: AuthScreen(),
+              inputDecorationTheme: InputDecorationTheme(
+                filled: true,
+                fillColor: Theme.of(context).primaryColor.withOpacity(0.08),
+              )),
+          home: authData.isAuth
+              ? HomeScreen()
+              : FutureBuilder(
+                  builder: (ctx, authSnapshot) =>
+                      authSnapshot.connectionState == ConnectionState.waiting
+                          ? Center(child: Text('Loading...'))
+                          : AuthScreen(),
+                ),
+        ),
       ),
     );
   }
