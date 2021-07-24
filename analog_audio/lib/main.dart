@@ -1,6 +1,6 @@
 import 'package:analog_audio/providers/auth.dart';
+import 'package:analog_audio/providers/products_overview_screen.dart';
 import 'package:analog_audio/screens/auth_screen.dart';
-import 'package:analog_audio/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -46,33 +46,45 @@ class MyApp extends StatelessWidget {
         builder: (context, authData, _) => MaterialApp(
           title: 'Analog Audio',
           theme: ThemeData(
-              primarySwatch: kPrimaryColor,
-              accentColor: Colors.teal.shade300,
-              fontFamily: 'Lato',
-              elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  primary: Colors.teal.shade300,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 15),
+            primarySwatch: kPrimaryColor,
+            accentColor: Colors.teal.shade300,
+            fontFamily: 'Lato',
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                primary: Colors.teal.shade300,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 15),
+              ),
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: kPrimaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
               ),
-              textButtonTheme: TextButtonThemeData(
-                style: TextButton.styleFrom(
-                  primary: kPrimaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                ),
+            ),
+            inputDecorationTheme: InputDecorationTheme(
+              filled: true,
+              fillColor: Colors.teal.shade300.withOpacity(0.08),
+            ),
+            textTheme: ThemeData.light().textTheme.copyWith(
+              headline4: TextStyle(
+                fontFamily: 'Lato',
+                fontWeight: FontWeight.bold,
+                color: kPrimaryColor.withOpacity(0.8),
               ),
-              inputDecorationTheme: InputDecorationTheme(
-                filled: true,
-                fillColor: Colors.teal.shade300.withOpacity(0.08),
-              )),
+              bodyText2: TextStyle(
+                fontFamily: 'Lato',
+                color: kPrimaryColor.withOpacity(0.4),
+              ),
+            ),
+          ),
           home: authData.isAuth
-              ? HomeScreen()
+              ? ProductsOverviewScreen()
               : FutureBuilder(
                   future: authData.tryAutoLogin(),
                   builder: (ctx, authSnapshot) =>

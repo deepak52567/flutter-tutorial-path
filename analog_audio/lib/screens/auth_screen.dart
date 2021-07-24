@@ -42,8 +42,7 @@ class AuthScreen extends StatelessWidget {
                         'Analog Audio',
                         style: TextStyle(
                             color: Theme.of(context).accentColor,
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),
+                            fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),

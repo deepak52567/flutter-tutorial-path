@@ -2,8 +2,8 @@ import 'package:analog_audio/models/enums.dart';
 import 'package:flutter/material.dart';
 
 class AuthModeToggle extends StatelessWidget {
-  AuthMode authMode;
-  Function _toggleAuthMode;
+  final AuthMode authMode;
+  final Function _toggleAuthMode;
 
   AuthModeToggle(
     this.authMode,
