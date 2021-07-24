@@ -27,9 +27,13 @@ class AuthScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        'assets/images/dji_logo.png',
-                        fit: BoxFit.contain,
+                      ColorFiltered(
+                        colorFilter:
+                        ColorFilter.mode(Colors.white, BlendMode.color),
+                        child: Image.asset(
+                          'assets/images/dji_logo.png',
+                          fit: BoxFit.contain,
+                        ),
                       ),
                       SizedBox(
                         height: 10,
@@ -37,7 +41,7 @@ class AuthScreen extends StatelessWidget {
                       Text(
                         'Analog Audio',
                         style: TextStyle(
-                            color: Colors.black54,
+                            color: Theme.of(context).accentColor,
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.italic),
                       ),

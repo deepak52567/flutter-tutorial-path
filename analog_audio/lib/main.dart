@@ -17,6 +17,22 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  static const MaterialColor kPrimaryColor = const MaterialColor(
+    0xFF000000,
+    const <int, Color>{
+      50: const Color(0xFF000000),
+      100: const Color(0xFF000000),
+      200: const Color(0xFF000000),
+      300: const Color(0xFF000000),
+      400: const Color(0xFF000000),
+      500: const Color(0xFF000000),
+      600: const Color(0xFF000000),
+      700: const Color(0xFF000000),
+      800: const Color(0xFF000000),
+      900: const Color(0xFF000000),
+    },
+  );
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -30,19 +46,29 @@ class MyApp extends StatelessWidget {
         builder: (context, authData, _) => MaterialApp(
           title: 'Analog Audio',
           theme: ThemeData(
-              primarySwatch: Colors.blue,
+              primarySwatch: kPrimaryColor,
+              accentColor: Colors.teal.shade300,
               elevatedButtonTheme: ElevatedButtonThemeData(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
-                  primary: Colors.blue,
+                  primary: Colors.teal.shade300,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)),
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
                   padding: EdgeInsets.symmetric(vertical: 15),
+                ),
+              ),
+              textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                  primary: kPrimaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
                 ),
               ),
               inputDecorationTheme: InputDecorationTheme(
                 filled: true,
-                fillColor: Theme.of(context).primaryColor.withOpacity(0.08),
+                fillColor: Colors.teal.shade300.withOpacity(0.08),
               )),
           home: authData.isAuth
               ? HomeScreen()
