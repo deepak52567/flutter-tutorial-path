@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
               primarySwatch: kPrimaryColor,
               accentColor: Colors.teal.shade300,
+              fontFamily: 'Lato',
               elevatedButtonTheme: ElevatedButtonThemeData(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
@@ -73,6 +74,7 @@ class MyApp extends StatelessWidget {
           home: authData.isAuth
               ? HomeScreen()
               : FutureBuilder(
+                  future: authData.tryAutoLogin(),
                   builder: (ctx, authSnapshot) =>
                       authSnapshot.connectionState == ConnectionState.waiting
                           ? Center(child: Text('Loading...'))

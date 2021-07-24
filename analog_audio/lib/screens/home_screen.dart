@@ -7,12 +7,14 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: TextButton(
-        child: Text('Logout'),
-        onPressed: () {
-          Provider.of<Auth>(context, listen: false).logout();
-        },
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+          child: Text('Logout'),
+          onPressed: () {
+            Provider.of<Auth>(context, listen: false).logout();
+          },
+        ),
       ),
     );
   }
