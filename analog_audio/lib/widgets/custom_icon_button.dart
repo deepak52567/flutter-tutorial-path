@@ -31,7 +31,7 @@ class CustomIconButton extends StatelessWidget {
       width: 50,
       height: 50,
       decoration: ShapeDecoration(
-        color: Colors.grey.shade300,
+        color: Colors.grey.shade200,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(11),
         ),
@@ -51,7 +51,7 @@ class CustomIconButton extends StatelessWidget {
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(11),
         border: Border.all(
-          color: Colors.grey.shade300,
+          color: Colors.grey.shade200,
           style: BorderStyle.solid,
           width: 1.0,
         ),

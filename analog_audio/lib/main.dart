@@ -1,5 +1,5 @@
 import 'package:analog_audio/providers/auth.dart';
-import 'package:analog_audio/providers/products_overview_screen.dart';
+import 'package:analog_audio/screens/products_overview_screen.dart';
 import 'package:analog_audio/screens/auth_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
             ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                primary: kPrimaryColor,
+                primary: Colors.teal.shade300,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -72,16 +72,27 @@ class MyApp extends StatelessWidget {
               fillColor: Colors.teal.shade300.withOpacity(0.08),
             ),
             textTheme: ThemeData.light().textTheme.copyWith(
-              headline4: TextStyle(
-                fontFamily: 'Lato',
-                fontWeight: FontWeight.bold,
-                color: kPrimaryColor.withOpacity(0.8),
-              ),
-              bodyText2: TextStyle(
-                fontFamily: 'Lato',
-                color: kPrimaryColor.withOpacity(0.4),
-              ),
-            ),
+                  headline4: TextStyle(
+                    fontFamily: 'Lato',
+                    fontWeight: FontWeight.bold,
+                    color: kPrimaryColor.withOpacity(0.8),
+                  ),
+                  bodyText2: TextStyle(
+                    fontFamily: 'Lato',
+                    color: kPrimaryColor.withOpacity(0.4),
+                  ),
+                  headline6: TextStyle(
+                    fontFamily: 'Lato',
+                    fontWeight: FontWeight.bold,
+                    color: kPrimaryColor.withOpacity(0.8),
+                    fontSize: 16,
+                  ),
+                  headline5: TextStyle(
+                    fontFamily: 'Lato',
+                    fontWeight: FontWeight.bold,
+                    color: kPrimaryColor.withOpacity(0.8),
+                  ),
+                ),
           ),
           home: authData.isAuth
               ? ProductsOverviewScreen()
