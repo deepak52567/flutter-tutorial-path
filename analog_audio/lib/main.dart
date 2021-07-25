@@ -1,6 +1,7 @@
 import 'package:analog_audio/providers/auth.dart';
-import 'package:analog_audio/screens/products_overview_screen.dart';
+import 'package:analog_audio/providers/products.dart';
 import 'package:analog_audio/screens/auth_screen.dart';
+import 'package:analog_audio/screens/products_overview_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,6 +41,14 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(
           value: Auth(),
+        ),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          create: (_) => Products('', '', []),
+          update: (BuildContext ctx, Auth auth, Products? products) => Products(
+            auth.userId != null ? auth.userId! : '',
+            auth.token != null ? auth.token! : '',
+            products!.items != null ? products.items : [],
+          ),
         ),
       ],
       child: Consumer<Auth>(

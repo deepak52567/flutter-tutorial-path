@@ -6,12 +6,12 @@ class ProductHorizontalList extends StatelessWidget {
   final Size size;
   final Function showAll;
 
-  const ProductHorizontalList({
-    Key? key,
-    required this.size,
-    required this.listTitle,
-    required this.showAll
-  }) : super(key: key);
+  const ProductHorizontalList(
+      {Key? key,
+      required this.size,
+      required this.listTitle,
+      required this.showAll})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

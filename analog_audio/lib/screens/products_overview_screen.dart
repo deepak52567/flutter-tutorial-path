@@ -1,4 +1,5 @@
 import 'package:analog_audio/models/enums.dart';
+import 'package:analog_audio/providers/products.dart';
 import 'package:analog_audio/widgets/custom_icon_button.dart';
 import 'package:analog_audio/widgets/products_horizontal_list.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +7,28 @@ import 'package:provider/provider.dart';
 
 import '../providers/auth.dart';
 
-class ProductsOverviewScreen extends StatelessWidget {
+class ProductsOverviewScreen extends StatefulWidget {
   const ProductsOverviewScreen({Key? key}) : super(key: key);
+
+  @override
+  _ProductsOverviewScreenState createState() => _ProductsOverviewScreenState();
+}
+
+class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
+  bool _isInit = true;
+  bool _isLoading = false;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() => _isLoading = true);
+      Provider.of<Products>(context).fetchAndSetProduct().then((_) {
+        setState(() => _isLoading = false);
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   List<Widget> getMainHeader(BuildContext context) {
     return [
@@ -72,6 +93,27 @@ class ProductsOverviewScreen extends StatelessWidget {
     ];
   }
 
+  List<Widget> renderProducts(Size size) {
+    return [
+      ProductHorizontalList(
+        listTitle: 'Products',
+        size: size,
+        showAll: () {},
+      ),
+      SizedBox(
+        height: 40,
+      ),
+      ProductHorizontalList(
+        listTitle: 'Accessories',
+        size: size,
+        showAll: () {},
+      ),
+      SizedBox(
+        height: 40,
+      ),
+    ].toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -88,22 +130,7 @@ class ProductsOverviewScreen extends StatelessWidget {
                 SizedBox(
                   height: 40,
                 ),
-                ProductHorizontalList(
-                  listTitle: 'Products',
-                  size: size,
-                  showAll: () {},
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-                ProductHorizontalList(
-                  listTitle: 'Accessories',
-                  size: size,
-                  showAll: () {},
-                ),
-                SizedBox(
-                  height: 40,
-                ),
+                ...renderProducts(size)
               ],
             ),
           ),
