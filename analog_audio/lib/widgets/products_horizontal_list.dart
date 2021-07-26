@@ -1,20 +1,32 @@
+import 'package:analog_audio/models/enums.dart';
+import 'package:analog_audio/providers/products.dart';
 import 'package:analog_audio/widgets/product_thumb_view.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductHorizontalList extends StatelessWidget {
   final String listTitle;
   final Size size;
   final Function showAll;
+  final ProductType prdtType;
 
-  const ProductHorizontalList(
-      {Key? key,
-      required this.size,
-      required this.listTitle,
-      required this.showAll})
-      : super(key: key);
+  const ProductHorizontalList({
+    Key? key,
+    required this.size,
+    required this.listTitle,
+    required this.showAll,
+    required this.prdtType,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final productsData = Provider.of<Products>(context);
+    final products =
+        describeEnum(prdtType) == describeEnum(ProductType.Headphones)
+            ? productsData.headphoneProducts
+            : productsData.accessoriesProducts;
+
     return Column(
       children: [
         Padding(
@@ -34,7 +46,7 @@ class ProductHorizontalList extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    '41',
+                    products.length.toString(),
                     style: Theme.of(context)
                         .textTheme
                         .headline5!
@@ -52,31 +64,20 @@ class ProductHorizontalList extends StatelessWidget {
         ),
         Container(
           height: size.height * 0.30,
-          child: ListView(
+          child: ListView.builder(
+            itemCount: products.length > 3 ? 3 : products.length,
             scrollDirection: Axis.horizontal,
-            children: [
-              Container(
-                height: double.infinity,
-                width: (size.width * 0.5),
-                margin: EdgeInsets.only(
-                  left: 20,
-                  right: 10,
-                ),
-                child: ProductThumbView(),
+            itemBuilder: (ctx, index) => Container(
+              height: double.infinity,
+              width: (size.width * 0.5),
+              margin: EdgeInsets.only(
+                left: 20,
+                right: 10,
               ),
-              Container(
-                height: double.infinity,
-                width: (size.width * 0.5),
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                child: ProductThumbView(),
+              child: ProductThumbView(
+                product: products[index],
               ),
-              Container(
-                height: double.infinity,
-                width: (size.width * 0.5),
-                margin: EdgeInsets.only(left: 10, right: 20),
-                child: ProductThumbView(),
-              ),
-            ],
+            ),
           ),
         ),
       ],

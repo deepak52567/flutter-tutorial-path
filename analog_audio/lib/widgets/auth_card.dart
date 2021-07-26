@@ -179,7 +179,7 @@ class _AuthCardState extends State<AuthCard> {
             ),
             if (_authMode == AuthMode.Signup)
               TextFormField(
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.send,
                 focusNode: _confPassFocusNode,
                 enabled: _authMode == AuthMode.Signup,
                 decoration: InputDecoration(

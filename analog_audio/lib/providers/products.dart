@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'dart:math';
 
+import 'package:analog_audio/models/enums.dart';
 import 'package:analog_audio/providers/product.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,6 +15,18 @@ class Products with ChangeNotifier {
 
   List<Product> get items {
     return [..._items];
+  }
+
+  List<Product> get headphoneProducts {
+    return _items
+        .where((prdt) => prdt.type == describeEnum(ProductType.Headphones))
+        .toList();
+  }
+
+  List<Product> get accessoriesProducts {
+    return _items
+        .where((prdt) => prdt.type == describeEnum(ProductType.Accessories))
+        .toList();
   }
 
   Future<void> fetchAndSetProduct() async {
@@ -38,6 +51,7 @@ class Products with ChangeNotifier {
             description: productData['description'],
             price: productData['price'],
             imageUrl: productData['imageUrl'],
+            type: productData['type'],
           ),
         ),
       );

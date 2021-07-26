@@ -96,46 +96,53 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   List<Widget> renderProducts(Size size) {
     return [
       ProductHorizontalList(
-        listTitle: 'Products',
+        listTitle: 'Headphones',
         size: size,
+        prdtType: ProductType.Headphones,
         showAll: () {},
       ),
       SizedBox(
-        height: 40,
+        height: 20,
       ),
       ProductHorizontalList(
         listTitle: 'Accessories',
         size: size,
+        prdtType: ProductType.Accessories,
         showAll: () {},
       ),
       SizedBox(
-        height: 40,
+        height: 20,
       ),
     ].toList();
   }
 
   @override
   Widget build(BuildContext context) {
+    print('Building');
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Container(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ...getMainHeader(context).toList(),
-                SizedBox(
-                  height: 40,
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : SingleChildScrollView(
+              child: SafeArea(
+                child: Container(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ...getMainHeader(context).toList(),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      ...renderProducts(size)
+                    ],
+                  ),
                 ),
-                ...renderProducts(size)
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }

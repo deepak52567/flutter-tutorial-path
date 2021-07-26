@@ -1,8 +1,12 @@
+import 'package:analog_audio/providers/product.dart';
 import 'package:flutter/material.dart';
 
 class ProductThumbView extends StatelessWidget {
+  final Product product;
+
   const ProductThumbView({
     Key? key,
+    required this.product
   }) : super(key: key);
 
   BorderRadius get getBorderRadius {
@@ -23,8 +27,7 @@ class ProductThumbView extends StatelessWidget {
                 color: Colors.grey.shade200,
                 borderRadius: getBorderRadius,
                 image: DecorationImage(
-                  image: NetworkImage(
-                      'https://images.unsplash.com/photo-1546435770-a3e426bf472b?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&dl=tomasz-gawlowski-YDZPdqv3FcA-unsplash.jpg&w=640'),
+                  image: NetworkImage(product.imageUrl),
                   fit: BoxFit.cover,
                   alignment: Alignment.center,
                 ),
@@ -46,14 +49,14 @@ class ProductThumbView extends StatelessWidget {
           height: 15,
         ),
         Text(
-          'Sony MX300 Wireless ANC Headphones',
+          product.title,
           style: Theme.of(context).textTheme.headline6,
         ),
         SizedBox(
           height: 10,
         ),
         Text(
-          '\$100.00',
+          '\$${product.price}',
           style: Theme.of(context).textTheme.bodyText2,
         ),
       ],
