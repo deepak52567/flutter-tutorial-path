@@ -7,13 +7,11 @@ import 'package:provider/provider.dart';
 
 class ProductHorizontalList extends StatelessWidget {
   final String listTitle;
-  final Size size;
   final Function showAll;
   final ProductType prdtType;
 
   const ProductHorizontalList({
     Key? key,
-    required this.size,
     required this.listTitle,
     required this.showAll,
     required this.prdtType,
@@ -21,6 +19,7 @@ class ProductHorizontalList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final productsData = Provider.of<Products>(context);
     final products =
         describeEnum(prdtType) == describeEnum(ProductType.Headphones)
@@ -63,13 +62,14 @@ class ProductHorizontalList extends StatelessWidget {
           ),
         ),
         Container(
-          height: size.height * 0.30,
+          height: 230,
           child: ListView.builder(
+            shrinkWrap: true,
             itemCount: products.length > 3 ? 3 : products.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (ctx, index) => Container(
               height: double.infinity,
-              width: (size.width * 0.5),
+              width: 200,
               margin: EdgeInsets.only(
                 left: 20,
                 right: 10,

@@ -93,11 +93,10 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     ];
   }
 
-  List<Widget> renderProducts(Size size) {
+  List<Widget> renderProducts() {
     return [
       ProductHorizontalList(
         listTitle: 'Headphones',
-        size: size,
         prdtType: ProductType.Headphones,
         showAll: () {},
       ),
@@ -106,7 +105,6 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       ),
       ProductHorizontalList(
         listTitle: 'Accessories',
-        size: size,
         prdtType: ProductType.Accessories,
         showAll: () {},
       ),
@@ -118,8 +116,6 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('Building');
-    final size = MediaQuery.of(context).size;
 
     return Scaffold(
       body: _isLoading
@@ -137,7 +133,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                       SizedBox(
                         height: 40,
                       ),
-                      ...renderProducts(size)
+                      ...renderProducts()
                     ],
                   ),
                 ),
