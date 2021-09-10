@@ -13,8 +13,40 @@ class OrderItem extends StatefulWidget {
   _OrderItemState createState() => _OrderItemState();
 }
 
-class _OrderItemState extends State<OrderItem> {
+class _OrderItemState extends State<OrderItem>
+    with SingleTickerProviderStateMixin {
   var _expanded = false;
+  late AnimationController _controller;
+  late Animation<double> _opacityAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    // set initial state of animation and assign widget which is going
+    // to be animate
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 300,
+      ),
+    );
+
+    _opacityAnimation = Tween(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeIn,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,19 +65,26 @@ class _OrderItemState extends State<OrderItem> {
                 setState(() {
                   this._expanded = !this._expanded;
                 });
+                this._expanded ? _controller.forward() : _controller.reverse();
               },
             ),
           ),
-          // Inline if conditions
-          if (_expanded)
-            Container(
-              // If 100 is smaller it will take the first value
-              // If First is smaller then it will take 100
-              height: min(widget.order.products.length * 20.0 + 10, 100.0),
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-              child: ListView(
-                children: widget.order.products
-                    .map((prdt) => Row(
+          // // Inline if conditions
+          // if (_expanded)
+          AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            curve: Curves.easeIn,
+            // If 100 is smaller it will take the first value
+            // If First is smaller then it will take 100
+            height: _expanded
+                ? min(widget.order.products.length * 30.0 + 10, 120.0)
+                : 0,
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+            child: ListView(
+              children: widget.order.products
+                  .map((prdt) => FadeTransition(
+                        opacity: _opacityAnimation,
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
@@ -59,12 +98,13 @@ class _OrderItemState extends State<OrderItem> {
                                 fontSize: 18,
                                 color: Colors.grey,
                               ),
-                            )
+                            ),
                           ],
-                        ))
-                    .toList(),
-              ),
-            )
+                        ),
+                      ))
+                  .toList(),
+            ),
+          )
         ],
       ),
     );
