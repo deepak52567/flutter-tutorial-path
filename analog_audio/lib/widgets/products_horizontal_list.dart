@@ -29,7 +29,7 @@ class ProductHorizontalList extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,8 +71,8 @@ class ProductHorizontalList extends StatelessWidget {
               height: double.infinity,
               width: 200,
               margin: EdgeInsets.only(
-                left: 20,
-                right: 10,
+                left: index == 0 ? 20 : 0,
+                right: index == (products.length) ? 20 : 10,
               ),
               child: ProductThumbView(
                 product: products[index],

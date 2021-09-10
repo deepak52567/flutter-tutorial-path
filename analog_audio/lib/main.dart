@@ -86,20 +86,21 @@ class MyApp extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: kPrimaryColor.withOpacity(0.8),
                   ),
-                  bodyText2: TextStyle(
+                  headline5: TextStyle(
                     fontFamily: 'Lato',
-                    color: kPrimaryColor.withOpacity(0.4),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: kPrimaryColor.withOpacity(0.8),
                   ),
                   headline6: TextStyle(
                     fontFamily: 'Lato',
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w900,
                     color: kPrimaryColor.withOpacity(0.8),
-                    fontSize: 16,
+                    fontSize: 15,
                   ),
-                  headline5: TextStyle(
+                  bodyText2: TextStyle(
                     fontFamily: 'Lato',
-                    fontWeight: FontWeight.bold,
-                    color: kPrimaryColor.withOpacity(0.8),
+                    color: kPrimaryColor.withOpacity(0.4),
                   ),
                 ),
           ),
