@@ -19,6 +19,7 @@ class ProductHorizontalList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int maxListLimit = 3;
     final size = MediaQuery.of(context).size;
     final productsData = Provider.of<Products>(context);
     final products =
@@ -65,14 +66,20 @@ class ProductHorizontalList extends StatelessWidget {
           height: 230,
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: products.length > 3 ? 3 : products.length,
+            itemCount:
+                products.length > maxListLimit ? maxListLimit : products.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (ctx, index) => Container(
               height: double.infinity,
               width: 200,
               margin: EdgeInsets.only(
                 left: index == 0 ? 20 : 0,
-                right: index == (products.length) ? 20 : 10,
+                right: index ==
+                        (products.length > maxListLimit
+                            ? (maxListLimit - 1)
+                            : (products.length - 1))
+                    ? 20
+                    : 10,
               ),
               child: ProductThumbView(
                 product: products[index],
