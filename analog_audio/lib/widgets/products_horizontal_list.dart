@@ -20,7 +20,6 @@ class ProductHorizontalList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int maxListLimit = 3;
-    final size = MediaQuery.of(context).size;
     final productsData = Provider.of<Products>(context);
     final products =
         describeEnum(prdtType) == describeEnum(ProductType.Headphones)

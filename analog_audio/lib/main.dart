@@ -55,6 +55,7 @@ class MyApp extends StatelessWidget {
         builder: (context, authData, _) => MaterialApp(
           title: 'Analog Audio',
           theme: ThemeData(
+            backgroundColor: Colors.black.withAlpha(1),
             primarySwatch: kPrimaryColor,
             accentColor: Colors.teal.shade300,
             fontFamily: 'Lato',

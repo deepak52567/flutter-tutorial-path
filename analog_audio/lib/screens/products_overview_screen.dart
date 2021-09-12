@@ -34,39 +34,6 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     return [
       Container(
         width: double.infinity,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CustomIconButton(
-              onPressed: () {},
-              icon: Icons.menu_open_sharp,
-              type: ButtonStyleType.Filled,
-            ),
-            Row(
-              children: [
-                CustomIconButton(
-                  onPressed: () {},
-                  icon: Icons.search_outlined,
-                  type: ButtonStyleType.Stroked,
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                CustomIconButton(
-                  onPressed: () {
-                    Provider.of<Auth>(context, listen: false).logout();
-                  },
-                  icon: Icons.logout,
-                  type: ButtonStyleType.Stroked,
-                ),
-              ],
-            ),
-          ],
-        ),
-        padding: EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
-      ),
-      Container(
-        width: double.infinity,
         alignment: Alignment.centerLeft,
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
@@ -116,27 +83,69 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+
     return Scaffold(
       body: _isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : SingleChildScrollView(
-              child: SafeArea(
-                child: Container(
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      ...getMainHeader(context).toList(),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      ...renderProducts()
-                    ],
+          : CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  stretch: true,
+                  pinned: false,
+                  snap: true,
+                  floating: true,
+                  collapsedHeight: 80,
+                  expandedHeight: 120,
+                  backgroundColor: Colors.transparent,
+                  flexibleSpace: Container(
+                    padding: EdgeInsets.only(left: 20, right: 20, top: statusBarHeight),
+                    height: double.infinity,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomIconButton(
+                          onPressed: () {},
+                          icon: Icons.menu_open_sharp,
+                          type: ButtonStyleType.Filled,
+                        ),
+                        Row(
+                          children: [
+                            CustomIconButton(
+                              onPressed: () {},
+                              icon: Icons.search_outlined,
+                              type: ButtonStyleType.Stroked,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            CustomIconButton(
+                              onPressed: () {
+                                Provider.of<Auth>(context, listen: false)
+                                    .logout();
+                              },
+                              icon: Icons.logout,
+                              type: ButtonStyleType.Stroked,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+                SliverList(
+                  delegate: SliverChildListDelegate([
+                    ...getMainHeader(context).toList(),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    ...renderProducts()
+                  ]),
+                )
+              ],
             ),
     );
   }
