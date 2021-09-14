@@ -1,6 +1,7 @@
 import 'package:analog_audio/providers/auth.dart';
 import 'package:analog_audio/providers/products.dart';
 import 'package:analog_audio/screens/auth_screen.dart';
+import 'package:analog_audio/screens/products_list_screen.dart';
 import 'package:analog_audio/screens/products_overview_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -114,6 +115,10 @@ class MyApp extends StatelessWidget {
                           ? Center(child: Text('Loading...'))
                           : AuthScreen(),
                 ),
+          routes: {
+            ProductsOverviewScreen.routeName: (ctx) => ProductsOverviewScreen(),
+            ProductsListScreen.routeName: (ctx) => ProductsListScreen(),
+          },
         ),
       ),
     );

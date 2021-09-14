@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 
 class ProductThumbView extends StatelessWidget {
   final Product product;
+  final bool dense;
 
   const ProductThumbView({
     Key? key,
-    required this.product
+    required this.product,
+    this.dense = false,
   }) : super(key: key);
 
   BorderRadius get getBorderRadius {
@@ -46,14 +48,15 @@ class ProductThumbView extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: 15,
+          height: 5,
         ),
         Text(
           product.title,
+          overflow: dense ? TextOverflow.ellipsis : TextOverflow.visible,
           style: Theme.of(context).textTheme.headline6,
         ),
         SizedBox(
-          height: 10,
+          height: 5,
         ),
         Text(
           '\$${product.price}',

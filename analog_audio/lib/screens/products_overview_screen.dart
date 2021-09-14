@@ -1,6 +1,8 @@
 import 'package:analog_audio/models/enums.dart';
 import 'package:analog_audio/providers/products.dart';
+import 'package:analog_audio/screens/products_list_screen.dart';
 import 'package:analog_audio/widgets/custom_icon_button.dart';
+import 'package:analog_audio/widgets/custom_sliver_app_bar.dart';
 import 'package:analog_audio/widgets/products_horizontal_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +10,8 @@ import 'package:provider/provider.dart';
 import '../providers/auth.dart';
 
 class ProductsOverviewScreen extends StatefulWidget {
+  static const routeName = '/products-overview';
+
   const ProductsOverviewScreen({Key? key}) : super(key: key);
 
   @override
@@ -65,7 +69,10 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       ProductHorizontalList(
         listTitle: 'Headphones',
         prdtType: ProductType.Headphones,
-        showAll: () {},
+        showAll: () {
+          Navigator.of(context).pushNamed(ProductsListScreen.routeName,
+              arguments: ProductType.Headphones);
+        },
       ),
       SizedBox(
         height: 20,
@@ -73,7 +80,10 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       ProductHorizontalList(
         listTitle: 'Accessories',
         prdtType: ProductType.Accessories,
-        showAll: () {},
+        showAll: () {
+          Navigator.of(context).pushNamed(ProductsListScreen.routeName,
+              arguments: ProductType.Accessories);
+        },
       ),
       SizedBox(
         height: 20,
@@ -83,8 +93,6 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double statusBarHeight = MediaQuery.of(context).padding.top;
-
     return Scaffold(
       body: _isLoading
           ? Center(
@@ -92,48 +100,37 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             )
           : CustomScrollView(
               slivers: [
-                SliverAppBar(
-                  stretch: true,
-                  pinned: false,
-                  snap: true,
-                  floating: true,
-                  collapsedHeight: 80,
-                  expandedHeight: 120,
-                  backgroundColor: Colors.transparent,
-                  flexibleSpace: Container(
-                    padding: EdgeInsets.only(left: 20, right: 20, top: statusBarHeight),
-                    height: double.infinity,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomIconButton(
-                          onPressed: () {},
-                          icon: Icons.menu_open_sharp,
-                          type: ButtonStyleType.Filled,
-                        ),
-                        Row(
-                          children: [
-                            CustomIconButton(
-                              onPressed: () {},
-                              icon: Icons.search_outlined,
-                              type: ButtonStyleType.Stroked,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            CustomIconButton(
-                              onPressed: () {
-                                Provider.of<Auth>(context, listen: false)
-                                    .logout();
-                              },
-                              icon: Icons.logout,
-                              type: ButtonStyleType.Stroked,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                CustomSliverAppBar(
+                  flexibleSpaceData: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomIconButton(
+                        onPressed: () {},
+                        icon: Icons.menu_open_sharp,
+                        type: ButtonStyleType.Filled,
+                      ),
+                      Row(
+                        children: [
+                          CustomIconButton(
+                            onPressed: () {},
+                            icon: Icons.search_outlined,
+                            type: ButtonStyleType.Stroked,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          CustomIconButton(
+                            onPressed: () {
+                              Provider.of<Auth>(context, listen: false)
+                                  .logout();
+                            },
+                            icon: Icons.logout,
+                            type: ButtonStyleType.Stroked,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
                 SliverList(
