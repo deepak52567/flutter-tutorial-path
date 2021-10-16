@@ -5,18 +5,24 @@ class CustomIconButton extends StatelessWidget {
   final Function onPressed;
   final IconData icon;
   final ButtonStyleType type;
+  final bool lightShade;
 
-  const CustomIconButton({
-    Key? key,
-    required this.onPressed,
-    required this.icon,
-    this.type = ButtonStyleType.Stroked,
-  }) : super(key: key);
+  const CustomIconButton(
+      {Key? key,
+      required this.onPressed,
+      required this.icon,
+      this.type = ButtonStyleType.Stroked,
+      this.lightShade = false})
+      : super(key: key);
 
   Widget get _coreIconButton {
     return Center(
       child: Container(
-        child: Icon(
+        child: lightShade ? Icon(
+          icon,
+          size: 25,
+          color: Colors.grey.shade900,
+        ) : Icon(
           icon,
           size: 25,
         ),
@@ -31,9 +37,9 @@ class CustomIconButton extends StatelessWidget {
       width: 50,
       height: 50,
       decoration: ShapeDecoration(
-        color: Colors.grey.shade200,
+        color: lightShade ? Colors.white : Colors.grey.shade200,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(11),
+          borderRadius: BorderRadius.circular(15),
         ),
       ),
       child: FittedBox(
@@ -49,7 +55,7 @@ class CustomIconButton extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(11),
+        borderRadius: BorderRadius.circular(15),
         border: Border.all(
           color: Colors.grey.shade200,
           style: BorderStyle.solid,

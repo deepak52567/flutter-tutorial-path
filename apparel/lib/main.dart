@@ -1,3 +1,4 @@
+import 'package:apparel/helpers/custom_route.dart';
 import 'package:apparel/providers/auth.dart';
 import 'package:apparel/providers/cart.dart';
 import 'package:apparel/providers/orders.dart';
@@ -65,6 +66,13 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
             accentColor: Colors.deepOrangeAccent,
             fontFamily: 'Lato',
+            // Global setting for page route transition
+            pageTransitionsTheme: PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android: CustomPageTransitionBuilder(),
+                TargetPlatform.iOS: CustomPageTransitionBuilder()
+              }
+            ),
           ),
           home: authData.isAuth
               ? ProductsOverviewScreen()

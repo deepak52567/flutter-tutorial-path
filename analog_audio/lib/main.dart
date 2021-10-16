@@ -1,6 +1,7 @@
 import 'package:analog_audio/providers/auth.dart';
 import 'package:analog_audio/providers/products.dart';
 import 'package:analog_audio/screens/auth_screen.dart';
+import 'package:analog_audio/screens/product_details_screen.dart';
 import 'package:analog_audio/screens/products_list_screen.dart';
 import 'package:analog_audio/screens/products_overview_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -118,6 +119,7 @@ class MyApp extends StatelessWidget {
           routes: {
             ProductsOverviewScreen.routeName: (ctx) => ProductsOverviewScreen(),
             ProductsListScreen.routeName: (ctx) => ProductsListScreen(),
+            ProductDetailsScreen.routeName: (ctx) => ProductDetailsScreen(),
           },
         ),
       ),

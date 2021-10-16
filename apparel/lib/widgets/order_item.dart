@@ -77,7 +77,7 @@ class _OrderItemState extends State<OrderItem>
             // If 100 is smaller it will take the first value
             // If First is smaller then it will take 100
             height: _expanded
-                ? min(widget.order.products.length * 30.0 + 10, 120.0)
+                ? min(widget.order.products.length * 20.0 + 20, 100.0)
                 : 0,
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
             child: ListView(

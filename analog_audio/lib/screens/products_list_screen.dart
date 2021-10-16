@@ -16,7 +16,6 @@ class ProductsListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double statusBarHeight = MediaQuery.of(context).padding.top;
     final type = ModalRoute.of(context)?.settings.arguments as ProductType;
     final productsData = Provider.of<Products>(context);
     final products = type == ProductType.Headphones

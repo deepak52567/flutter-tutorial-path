@@ -62,7 +62,7 @@ class ProductHorizontalList extends StatelessWidget {
           ),
         ),
         Container(
-          height: 230,
+          height: 200,
           child: ListView.builder(
             shrinkWrap: true,
             itemCount:
@@ -82,6 +82,7 @@ class ProductHorizontalList extends StatelessWidget {
               ),
               child: ProductThumbView(
                 product: products[index],
+                dense: true,
               ),
             ),
           ),

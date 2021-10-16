@@ -1,13 +1,10 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:analog_audio/models/enums.dart';
-import 'package:analog_audio/providers/auth.dart' ;
 import 'package:analog_audio/providers/product.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = [];
@@ -65,5 +62,9 @@ class Products with ChangeNotifier {
     } catch (err) {
       throw err;
     }
+  }
+
+  Product findById(String id) {
+    return _items.firstWhere((item) => item.id == id);
   }
 }
